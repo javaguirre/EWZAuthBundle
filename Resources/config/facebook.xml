@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://www.symfony-project.org/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="oauth.facebook.service.class">Bundle\OAuthBundle\Service\FacebookService</parameter>
+
+        <parameter key="oauth.facebook.class">Facebook</parameter>
+        <parameter key="oauth.facebook.file">%kernel.root_dir%/../vendor/facebook/src/facebook.php</parameter>
+        <parameter key="oauth.facebook.app_id">null</parameter>
+        <parameter key="oauth.facebook.secret">null</parameter>
+        <parameter key="oauth.facebook.cookie">true</parameter>
+
+        <parameter key="templating.helper.oauth.facebook.class">Bundle\OAuthBundle\Templating\Helper\FacebookHelper</parameter>
+    </parameters>
+
+    <services>
+        <service id="facebook" class="%oauth.facebook.class%">
+            <file>%oauth.facebook.file%</file>
+            <argument type="collection">
+                <argument key="appId">%oauth.facebook.app_id%</argument>
+                <argument key="secret">%oauth.facebook.secret%</argument>
+                <argument key="cookie">%oauth.facebook.cookie%</argument>
+            </argument>
+        </service>
+
+        <service id="oauth.facebook" class="%oauth.facebook.service.class%">
+            <argument type="service" id="facebook" />
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+        </service>
+
+        <service id="templating.helper.oauth.facebook" class="%templating.helper.oauth.facebook.class%">
+            <tag name="templating.helper" alias="oauth.facebook" />
+            <argument type="service" id="templating" />
+            <argument key="addId">%oauth.facebook.app_id%</argument>
+            <argument key="cookie">%oauth.facebook.cookie%</argument>
+        </service>
+    </services>
+</container>
