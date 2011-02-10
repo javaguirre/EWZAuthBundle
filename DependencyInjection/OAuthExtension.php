@@ -47,10 +47,6 @@ class OAuthExtension extends Extension
             $loader->load('facebook.xml');
         }
 
-        if (isset($config['service']['class'])) {
-            $container->setParameter('oauth.facebook.service.class', $config['service']['class']);
-        }
-
         foreach (array('class', 'file', 'app_id', 'secret', 'cookie') as $attribute) {
             if (isset($config[$attribute])) {
                 $container->setParameter('oauth.facebook.'.$attribute, $config[$attribute]);
@@ -69,10 +65,6 @@ class OAuthExtension extends Extension
         if (!$container->hasDefinition('oauth.twitter')) {
             $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
             $loader->load('twitter.xml');
-        }
-
-        if (isset($config['service']['class'])) {
-            $container->setParameter('oauth.twitter.service.class', $config['service']['class']);
         }
 
         if (isset($config['api']['class'])) {

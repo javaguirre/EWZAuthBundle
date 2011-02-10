@@ -23,7 +23,15 @@
     </xsd:complexType>
 
     <xsd:complexType name="twitter">
+        <xsd:all>
+            <xsd:element name="api" type="twitter_api" minOccurs="0" maxOccurs="1" />
+        </xsd:all>
+
         <xsd:attribute name="key" type="xsd:string" />
         <xsd:attribute name="secret" type="xsd:string" />
+    </xsd:complexType>
+
+    <xsd:complexType name="twitter_api">
+        <xsd:attribute name="class" type="xsd:string" />
     </xsd:complexType>
 </xsd:schema>
