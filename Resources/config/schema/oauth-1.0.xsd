@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<xsd:schema xmlns="http://www.symfony-project.org/schema/dic/oauth"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.symfony-project.org/schema/dic/oauth"
+    elementFormDefault="qualified">
+
+    <xsd:element name="config" type="config" />
+
+    <xsd:complexType name="config">
+        <xsd:all>
+            <xsd:element name="facebook" type="facebook" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="twitter" type="twitter" minOccurs="0" maxOccurs="1" />
+        </xsd:all>
+    </xsd:complexType>
+
+    <xsd:complexType name="facebook">
+        <xsd:attribute name="class" type="xsd:string" />
+        <xsd:attribute name="file" type="xsd:string" />
+        <xsd:attribute name="app_id" type="xsd:string" />
+        <xsd:attribute name="secret" type="xsd:string" />
+        <xsd:attribute name="cookie" type="xsd:string" />
+    </xsd:complexType>
+
+    <xsd:complexType name="twitter">
+        <xsd:attribute name="key" type="xsd:string" />
+        <xsd:attribute name="secret" type="xsd:string" />
+    </xsd:complexType>
+</xsd:schema>

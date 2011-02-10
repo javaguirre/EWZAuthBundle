@@ -4,6 +4,7 @@ namespace Bundle\OAuthBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class OAuthExtension extends Extension
@@ -42,7 +43,7 @@ class OAuthExtension extends Extension
     protected function registerFacevookConfiguration($config, ContainerBuilder $container)
     {
         if (!$container->hasDefinition('oauth.facebook')) {
-            $loader = new XmlFileLoader($container, __DIR__.'/../Resources/config');
+            $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
             $loader->load('facebook.xml');
         }
 
@@ -66,7 +67,7 @@ class OAuthExtension extends Extension
     protected function registerTwitterConfiguration($config, ContainerBuilder $container)
     {
         if (!$container->hasDefinition('oauth.twitter')) {
-            $loader = new XmlFileLoader($container, __DIR__.'/../Resources/config');
+            $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
             $loader->load('twitter.xml');
         }
 
@@ -102,7 +103,7 @@ class OAuthExtension extends Extension
      */
     public function getNamespace()
     {
-        return 'http://www.symfony-project.org/schema/dic/symfony';
+        return 'http://www.symfony-project.org/schema/dic/oauth';
     }
 
     /**
