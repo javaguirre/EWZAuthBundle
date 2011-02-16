@@ -42,7 +42,7 @@ class EWZAuthExtension extends Extension
      */
     protected function registerFacebookConfiguration($config, ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('ewz.auth.facebook')) {
+        if (!$container->hasDefinition('auth.facebook')) {
             $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
             $loader->load('facebook.xml');
         }
@@ -62,7 +62,7 @@ class EWZAuthExtension extends Extension
      */
     protected function registerTwitterConfiguration($config, ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('ewz.auth.twitter')) {
+        if (!$container->hasDefinition('auth.twitter')) {
             $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
             $loader->load('twitter.xml');
         }
