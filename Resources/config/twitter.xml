@@ -5,7 +5,7 @@
     xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="oauth.twitter.service.class">Bundle\OAuthBundle\Service\TwitterService</parameter>
+        <parameter key="oauth.twitter.service.class">EWZ\OAuthBundle\Service\TwitterService</parameter>
 
         <parameter key="oauth.twitter.api.class">TwitterOAuth\Api</parameter>
         <parameter key="oauth.twitter.key">null</parameter>

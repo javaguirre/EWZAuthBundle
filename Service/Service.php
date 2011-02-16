@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\OAuthBundle\Service;
+namespace EWZ\OAuthBundle\Service;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Session;

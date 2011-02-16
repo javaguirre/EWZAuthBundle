@@ -1,13 +1,13 @@
 <?php
 
-namespace Bundle\OAuthBundle\Tests\DependencyInjection;
+namespace EWZ\OAuthBundle\Tests\DependencyInjection;
 
-use Bundle\OAuthBundle\DependencyInjection\FacebookExtension;
+use EWZ\OAuthBundle\DependencyInjection\FacebookExtension;
 
 class FacebookExtensionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Bundle\OAuthBundle\DependencyInjection\OAuthExtension::configLoad
+     * @covers EWZ\OAuthBundle\DependencyInjection\OAuthExtension::configLoad
      */
     public function testApiLoadLoadsDefaults()
     {
@@ -30,7 +30,7 @@ class FacebookExtensionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Bundle\OAuthBundle\DependencyInjection\OAuthExtension::configLoad
+     * @covers EWZ\OAuthBundle\DependencyInjection\OAuthExtension::configLoad
      */
     public function testConfigLoadDoesNotReloadDefaults()
     {
@@ -52,7 +52,7 @@ class FacebookExtensionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Bundle\OAuthBundle\DependencyInjection\OAuthExtension::configLoad
+     * @covers EWZ\OAuthBundle\DependencyInjection\OAuthExtension::configLoad
      * @dataProvider parameterNames
      */
     public function testConfigLoadSetParameters($name)

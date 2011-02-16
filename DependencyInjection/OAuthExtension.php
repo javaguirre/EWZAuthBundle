@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\OAuthBundle\DependencyInjection;
+namespace EWZ\OAuthBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
@@ -9,7 +9,7 @@ use Symfony\Component\Config\FileLocator;
 
 class OAuthExtension extends Extension
 {
-    public function configLoad(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container)
     {
         foreach ($configs as $config) {
             $this->doConfigLoad($config, $container);
@@ -95,7 +95,7 @@ class OAuthExtension extends Extension
      */
     public function getNamespace()
     {
-        return 'http://www.symfony-project.org/schema/dic/oauth';
+        return 'http://www.symfony-project.org/schema/dic/ewz/oauth';
     }
 
     /**
@@ -107,6 +107,6 @@ class OAuthExtension extends Extension
      */
     public function getAlias()
     {
-        return 'oauth';
+        return 'ewz_oauth';
     }
 }

@@ -5,7 +5,7 @@
     xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="oauth.facebook.service.class">Bundle\OAuthBundle\Service\FacebookService</parameter>
+        <parameter key="oauth.facebook.service.class">EWZ\OAuthBundle\Service\FacebookService</parameter>
 
         <parameter key="oauth.facebook.class">Facebook</parameter>
         <parameter key="oauth.facebook.file">%kernel.root_dir%/../vendor/facebook/src/facebook.php</parameter>
@@ -13,7 +13,7 @@
         <parameter key="oauth.facebook.secret">null</parameter>
         <parameter key="oauth.facebook.cookie">true</parameter>
 
-        <parameter key="templating.helper.oauth.facebook.class">Bundle\OAuthBundle\Templating\Helper\FacebookHelper</parameter>
+        <parameter key="templating.helper.oauth.facebook.class">EWZ\OAuthBundle\Templating\Helper\FacebookHelper</parameter>
     </parameters>
 
     <services>

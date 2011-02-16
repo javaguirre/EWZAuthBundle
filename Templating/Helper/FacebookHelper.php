@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\OAuthBundle\Templating\Helper;
+namespace EWZ\OAuthBundle\Templating\Helper;
 
 use Symfony\Component\Templating\Helper\Helper;
 use Symfony\Component\Templating\EngineInterface;

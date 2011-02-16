@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\OAuthBundle\Service;
+namespace EWZ\OAuthBundle\Service;
 
 /**
  * FacebookService is a service that manages Facebook API.

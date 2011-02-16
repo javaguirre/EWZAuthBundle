@@ -12,7 +12,7 @@ Installation
     git clone git://github.com/ruudk/twitteroauth.git vendor/twitteroauth
 
 
-**Add OAuthBundle to your src/Bundle dir**
+**Add OAuthBundle to your src/Bundle dir:**
 
 You can download it from here http://excelwebzone.github.com/OAuthBundle
 
@@ -23,25 +23,25 @@ You can download it from here http://excelwebzone.github.com/OAuthBundle
     {
         return array(
             // ...
-            new Bundle\OAuthBundle\OAuthBundle(),
+            new EWZ\OAuthBundle\EWZOAuthBundle(),
             // ...
         );
     }
 
-**Add TwitterOAuth to the autoload file.**
+**Add the EWZ and TwitterOAuth namespace to your autoloader:**
 
-    $loader = new UniversalClassLoader();
+    // app/autoload.php
     $loader->registerNamespaces(array(
-        // ...
-        'TwitterOAuth' => $vendorDir.'/twitteroauth',
-        // ...
+        ...
+        'EWZ' => __DIR__.'/../src',
+        'TwitterOAuth' => __DIR__.'/../vendor/twitteroauth',
     ));
 
 
-**Add your service(s) in your configuration file.**
+**Add your service(s) in your configuration file:**
 
     // app/config/config.yml
-    oauth.config:
+    ewz_oauth:
         facebook:
             app_id:    __APPID__
             secret:   __SECRET__

@@ -1,13 +1,13 @@
 <?php
 
-namespace Bundle\OAuthBundle\Tests\Templating\Helper;
+namespace EWZ\OAuthBundle\Tests\Templating\Helper;
 
-use Bundle\OAuthBundle\Templating\Helper\FacebookHelper
+use EWZ\OAuthBundle\Templating\Helper\FacebookHelper
 
 class FacebookHelperTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Bundle\OAuthBundle\Templating\Helper\FacebookHelper::initialize
+     * @covers EWZ\OAuthBundle\Templating\Helper\FacebookHelper::initialize
      */
     public function testInitialize()
     {
