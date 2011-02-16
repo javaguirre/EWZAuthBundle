@@ -2,9 +2,9 @@
 
 namespace EWZ\AuthBundle\Tests\DependencyInjection;
 
-use EWZ\AuthBundle\DependencyInjection\FacebookExtension;
+use EWZ\AuthBundle\DependencyInjection\EWZAuthExtension;
 
-class FacebookExtensionTest extends \PHPUnit_Framework_TestCase
+class AuthExtensionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers EWZ\AuthBundle\DependencyInjection\EWZAuthExtension::load
