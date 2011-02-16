@@ -1,13 +1,13 @@
 <?php
 
-namespace EWZ\OAuthBundle\Tests\Templating\Helper;
+namespace EWZ\AuthBundle\Tests\Templating\Helper;
 
-use EWZ\OAuthBundle\Templating\Helper\FacebookHelper
+use EWZ\AuthBundle\Templating\Helper\FacebookHelper
 
 class FacebookHelperTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers EWZ\OAuthBundle\Templating\Helper\FacebookHelper::initialize
+     * @covers EWZ\AuthBundle\Templating\Helper\FacebookHelper::initialize
      */
     public function testInitialize()
     {
@@ -19,7 +19,7 @@ class FacebookHelperTest extends \PHPUnit_Framework_TestCase
         $templating
             ->expects($this->once())
             ->method('render')
-            ->with('OAuthBundle::initialize.php', array(
+            ->with('AuthBundle::initialize.php', array(
                 'appId'   => 123,
                 'cookie'  => false,
                 'culture' => 'en_US',

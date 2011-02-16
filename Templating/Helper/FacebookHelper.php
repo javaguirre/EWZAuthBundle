@@ -1,6 +1,6 @@
 <?php
 
-namespace EWZ\OAuthBundle\Templating\Helper;
+namespace EWZ\AuthBundle\Templating\Helper;
 
 use Symfony\Component\Templating\Helper\Helper;
 use Symfony\Component\Templating\EngineInterface;
@@ -36,7 +36,7 @@ class FacebookHelper extends Helper
      *
      * @return string An HTML string
      */
-    public function initialize($parameters = array(), $name = 'OAuthBundle::facebook.html.php')
+    public function initialize($parameters = array(), $name = 'AuthBundle::facebook.html.php')
     {
         return $this->templating->render($name, $parameters + array(
             'appId'   => $this->appId,
@@ -56,6 +56,6 @@ class FacebookHelper extends Helper
      */
     public function getName()
     {
-        return 'oauth.facebook';
+        return 'auth.facebook';
     }
 }

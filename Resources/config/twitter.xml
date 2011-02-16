@@ -5,20 +5,20 @@
     xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="oauth.twitter.service.class">EWZ\OAuthBundle\Service\TwitterService</parameter>
+        <parameter key="auth.twitter.service.class">EWZ\AuthBundle\Service\TwitterService</parameter>
 
-        <parameter key="oauth.twitter.api.class">TwitterOAuth\Api</parameter>
-        <parameter key="oauth.twitter.key">null</parameter>
-        <parameter key="oauth.twitter.secret">null</parameter>
+        <parameter key="auth.twitter.api.class">TwitterOAuth\Api</parameter>
+        <parameter key="auth.twitter.key">null</parameter>
+        <parameter key="auth.twitter.secret">null</parameter>
     </parameters>
 
     <services>
-        <service id="twitter.api" class="%oauth.twitter.api.class%">
-            <argument key="consumer_key">%oauth.twitter.key%</argument>
-            <argument key="consumer_secret">%oauth.twitter.secret%</argument>
+        <service id="twitter.api" class="%auth.twitter.api.class%">
+            <argument key="consumer_key">%auth.twitter.key%</argument>
+            <argument key="consumer_secret">%auth.twitter.secret%</argument>
         </service>
 
-        <service id="oauth.twitter" class="%oauth.twitter.service.class%">
+        <service id="auth.twitter" class="%auth.twitter.service.class%">
             <argument type="service" id="twitter.api" />
             <call method="setContainer">
                 <argument type="service" id="service_container" />

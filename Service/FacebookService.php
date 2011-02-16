@@ -1,6 +1,6 @@
 <?php
 
-namespace EWZ\OAuthBundle\Service;
+namespace EWZ\AuthBundle\Service;
 
 /**
  * FacebookService is a service that manages Facebook API.
@@ -114,6 +114,6 @@ class FacebookService extends Service
      */
     public function getName()
     {
-        return 'oauth.facebook';
+        return 'auth.facebook';
     }
 }

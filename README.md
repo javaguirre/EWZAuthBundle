@@ -9,21 +9,21 @@ Installation
     git clone git://github.com/facebook/php-sdk.git vendor/facebook
 
     # Twitter OAuth
-    git clone git://github.com/ruudk/twitteroauth.git vendor/twitteroauth
+    git clone git://github.com/ruudk/twitterauth.git vendor/twitterauth
 
 
-**Add OAuthBundle to your src/Bundle dir:**
+**Add AuthBundle to your src/Bundle dir:**
 
-You can download it from here http://excelwebzone.github.com/OAuthBundle
+You can download it from here http://excelwebzone.github.com/AuthBundle
 
-**Add OAuthBundle to your application kernel:**
+**Add AuthBundle to your application kernel:**
 
     // app/AppKernel.php
     public function registerBundles()
     {
         return array(
             // ...
-            new EWZ\OAuthBundle\EWZOAuthBundle(),
+            new EWZ\AuthBundle\EWZAuthBundle(),
             // ...
         );
     }
@@ -34,14 +34,14 @@ You can download it from here http://excelwebzone.github.com/OAuthBundle
     $loader->registerNamespaces(array(
         ...
         'EWZ' => __DIR__.'/../src',
-        'TwitterOAuth' => __DIR__.'/../vendor/twitteroauth',
+        'TwitterOAuth' => __DIR__.'/../vendor/twitterauth',
     ));
 
 
 **Add your service(s) in your configuration file:**
 
     // app/config/config.yml
-    ewz_oauth:
+    ewz_auth:
         facebook:
             app_id:    __APPID__
             secret:   __SECRET__
@@ -62,7 +62,7 @@ and redirect to it.
         ...
 
         // load service
-        $service = $this->get('oauth.facebook');
+        $service = $this->get('auth.facebook');
 
         $loginUrl = $service->getLoginUrl(
             $this->generateUrl('ALLOW_URL', array('provider' => 'facebook'), true),
@@ -83,7 +83,7 @@ Once return to the ALLOW_URL, we can then get all the profile information by usi
         ...
 
         // load service
-        $service = $this->get('oauth.facebook');
+        $service = $this->get('auth.facebook');
 
         if (!$profile = $service->getProfile()) {
             return $this->createResponse('We couldn&#039;t connect you to Facebook at this time, please try again.');
@@ -96,7 +96,7 @@ Once return to the ALLOW_URL, we can then get all the profile information by usi
 In addition there is a way to retrieve the profile Friends list:
 
         // load service
-        $service = $this->get('oauth.facebook');
+        $service = $this->get('auth.facebook');
 
         $friends = $service->getFriends($profile['id'], $profile['access_token']);
 

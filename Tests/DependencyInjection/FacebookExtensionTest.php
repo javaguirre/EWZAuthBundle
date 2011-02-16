@@ -1,13 +1,13 @@
 <?php
 
-namespace EWZ\OAuthBundle\Tests\DependencyInjection;
+namespace EWZ\AuthBundle\Tests\DependencyInjection;
 
-use EWZ\OAuthBundle\DependencyInjection\FacebookExtension;
+use EWZ\AuthBundle\DependencyInjection\FacebookExtension;
 
 class FacebookExtensionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers EWZ\OAuthBundle\DependencyInjection\OAuthExtension::configLoad
+     * @covers EWZ\AuthBundle\DependencyInjection\EWZAuthExtension::load
      */
     public function testApiLoadLoadsDefaults()
     {
@@ -15,10 +15,10 @@ class FacebookExtensionTest extends \PHPUnit_Framework_TestCase
         $container
             ->expects($this->once())
             ->method('hasDefinition')
-            ->with('oauth.facebook')
+            ->with('auth.facebook')
             ->will($this->returnValue(false));
 
-        $extension = $this->getMockBuilder('Bundle\\OAuthBundle\\DependencyInjection\\OAuthExtension')
+        $extension = $this->getMockBuilder('Bundle\\AuthBundle\\DependencyInjection\\EWZAuthExtension')
             ->setMethods(array('loadDefaults'))
             ->getMock();
         $extension
@@ -26,11 +26,11 @@ class FacebookExtensionTest extends \PHPUnit_Framework_TestCase
             ->method('loadDefaults')
             ->with($container);
 
-        $extension->configLoad(array(), $container);
+        $extension->load(array(), $container);
     }
 
     /**
-     * @covers EWZ\OAuthBundle\DependencyInjection\OAuthExtension::configLoad
+     * @covers EWZ\AuthBundle\DependencyInjection\EWZAuthExtension::load
      */
     public function testConfigLoadDoesNotReloadDefaults()
     {
@@ -38,21 +38,21 @@ class FacebookExtensionTest extends \PHPUnit_Framework_TestCase
         $container
             ->expects($this->once())
             ->method('hasDefinition')
-            ->with('oauth.facebook')
+            ->with('auth.facebook')
             ->will($this->returnValue(true));
 
-        $extension = $this->getMockBuilder('Bundle\\OAuthBundle\\DependencyInjection\\OAuthExtension')
+        $extension = $this->getMockBuilder('Bundle\\AuthBundle\\DependencyInjection\\EWZAuthExtension')
             ->setMethods(array('loadDefaults'))
             ->getMock();
         $extension
             ->expects($this->never())
             ->method('loadDefaults');
 
-        $extension->configLoad(array(), $container);
+        $extension->load(array(), $container);
     }
 
     /**
-     * @covers EWZ\OAuthBundle\DependencyInjection\OAuthExtension::configLoad
+     * @covers EWZ\AuthBundle\DependencyInjection\EWZAuthExtension::load
      * @dataProvider parameterNames
      */
     public function testConfigLoadSetParameters($name)
@@ -63,15 +63,15 @@ class FacebookExtensionTest extends \PHPUnit_Framework_TestCase
         $container
             ->expects($this->once())
             ->method('hasDefinition')
-            ->with('oauth.facebook')
+            ->with('auth.facebook')
             ->will($this->returnValue(true));
         $container
             ->expects($this->once())
             ->method('setParameter')
-            ->with('oauth.facebook.'.$name, $value);
+            ->with('auth.facebook.'.$name, $value);
 
-        $extension = new OAuthExtension();
-        $extension->configLoad(array($name => $value), $container);
+        $extension = new EWZAuthExtension();
+        $extension->load(array($name => $value), $container);
     }
 
     public function parameterNames()

@@ -1,13 +1,13 @@
 <?php
 
-namespace EWZ\OAuthBundle\DependencyInjection;
+namespace EWZ\AuthBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 
-class EWZOAuthExtension extends Extension
+class EWZAuthExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -17,7 +17,7 @@ class EWZOAuthExtension extends Extension
     }
 
     /**
-     * Loads the oauth configuration.
+     * Loads the auth configuration.
      *
      * @param array            $config    An array of configuration settings
      * @param ContainerBuilder $container A ContainerBuilder instance
@@ -42,14 +42,14 @@ class EWZOAuthExtension extends Extension
      */
     protected function registerFacevookConfiguration($config, ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('oauth.facebook')) {
+        if (!$container->hasDefinition('auth.facebook')) {
             $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
             $loader->load('facebook.xml');
         }
 
         foreach (array('class', 'file', 'app_id', 'secret', 'cookie') as $attribute) {
             if (isset($config[$attribute])) {
-                $container->setParameter('oauth.facebook.'.$attribute, $config[$attribute]);
+                $container->setParameter('auth.facebook.'.$attribute, $config[$attribute]);
             }
         }
     }
@@ -62,18 +62,18 @@ class EWZOAuthExtension extends Extension
      */
     protected function registerTwitterConfiguration($config, ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('oauth.twitter')) {
+        if (!$container->hasDefinition('auth.twitter')) {
             $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
             $loader->load('twitter.xml');
         }
 
         if (isset($config['api']['class'])) {
-            $container->setParameter('oauth.twitter.api.class', $config['api']['class']);
+            $container->setParameter('auth.twitter.api.class', $config['api']['class']);
         }
 
         foreach (array('key', 'secret') as $attribute) {
             if (isset($config[$attribute])) {
-                $container->setParameter('oauth.twitter.'.$attribute, $config[$attribute]);
+                $container->setParameter('auth.twitter.'.$attribute, $config[$attribute]);
             }
         }
     }
@@ -95,7 +95,7 @@ class EWZOAuthExtension extends Extension
      */
     public function getNamespace()
     {
-        return 'http://www.symfony-project.org/schema/dic/ewz/oauth';
+        return 'http://www.symfony-project.org/schema/dic/ewz/auth';
     }
 
     /**
@@ -107,6 +107,6 @@ class EWZOAuthExtension extends Extension
      */
     public function getAlias()
     {
-        return 'ewz_oauth';
+        return 'ewz_auth';
     }
 }

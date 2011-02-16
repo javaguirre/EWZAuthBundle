@@ -5,39 +5,39 @@
     xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="oauth.facebook.service.class">EWZ\OAuthBundle\Service\FacebookService</parameter>
+        <parameter key="auth.facebook.service.class">EWZ\AuthBundle\Service\FacebookService</parameter>
 
-        <parameter key="oauth.facebook.class">Facebook</parameter>
-        <parameter key="oauth.facebook.file">%kernel.root_dir%/../vendor/facebook/src/facebook.php</parameter>
-        <parameter key="oauth.facebook.app_id">null</parameter>
-        <parameter key="oauth.facebook.secret">null</parameter>
-        <parameter key="oauth.facebook.cookie">true</parameter>
+        <parameter key="auth.facebook.class">Facebook</parameter>
+        <parameter key="auth.facebook.file">%kernel.root_dir%/../vendor/facebook/src/facebook.php</parameter>
+        <parameter key="auth.facebook.app_id">null</parameter>
+        <parameter key="auth.facebook.secret">null</parameter>
+        <parameter key="auth.facebook.cookie">true</parameter>
 
-        <parameter key="templating.helper.oauth.facebook.class">EWZ\OAuthBundle\Templating\Helper\FacebookHelper</parameter>
+        <parameter key="templating.helper.auth.facebook.class">EWZ\AuthBundle\Templating\Helper\FacebookHelper</parameter>
     </parameters>
 
     <services>
-        <service id="facebook" class="%oauth.facebook.class%">
-            <file>%oauth.facebook.file%</file>
+        <service id="facebook" class="%auth.facebook.class%">
+            <file>%auth.facebook.file%</file>
             <argument type="collection">
-                <argument key="appId">%oauth.facebook.app_id%</argument>
-                <argument key="secret">%oauth.facebook.secret%</argument>
-                <argument key="cookie">%oauth.facebook.cookie%</argument>
+                <argument key="appId">%auth.facebook.app_id%</argument>
+                <argument key="secret">%auth.facebook.secret%</argument>
+                <argument key="cookie">%auth.facebook.cookie%</argument>
             </argument>
         </service>
 
-        <service id="oauth.facebook" class="%oauth.facebook.service.class%">
+        <service id="auth.facebook" class="%auth.facebook.service.class%">
             <argument type="service" id="facebook" />
             <call method="setContainer">
                 <argument type="service" id="service_container" />
             </call>
         </service>
 
-        <service id="templating.helper.oauth.facebook" class="%templating.helper.oauth.facebook.class%">
-            <tag name="templating.helper" alias="oauth.facebook" />
+        <service id="templating.helper.auth.facebook" class="%templating.helper.auth.facebook.class%">
+            <tag name="templating.helper" alias="auth.facebook" />
             <argument type="service" id="templating" />
-            <argument key="addId">%oauth.facebook.app_id%</argument>
-            <argument key="cookie">%oauth.facebook.cookie%</argument>
+            <argument key="addId">%auth.facebook.app_id%</argument>
+            <argument key="cookie">%auth.facebook.cookie%</argument>
         </service>
     </services>
 </container>
