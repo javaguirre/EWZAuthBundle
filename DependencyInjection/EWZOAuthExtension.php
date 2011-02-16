@@ -7,7 +7,7 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 
-class OAuthExtension extends Extension
+class EWZOAuthExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)
     {
