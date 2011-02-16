@@ -25,7 +25,7 @@ class EWZAuthExtension extends Extension
     protected function doConfigLoad(array $config, ContainerBuilder $container)
     {
         if (isset($config['facebook'])) {
-            $this->registerFacevookConfiguration($config['facebook'], $container);
+            $this->registerFacebookConfiguration($config['facebook'], $container);
         }
 
         if (isset($config['twitter'])) {
@@ -40,9 +40,9 @@ class EWZAuthExtension extends Extension
      * @param array            $config    A configuration array
      * @param ContainerBuilder $container A ContainerBuilder instance
      */
-    protected function registerFacevookConfiguration($config, ContainerBuilder $container)
+    protected function registerFacebookConfiguration($config, ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('auth.facebook')) {
+        if (!$container->hasDefinition('ewz.auth.facebook')) {
             $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
             $loader->load('facebook.xml');
         }
@@ -62,7 +62,7 @@ class EWZAuthExtension extends Extension
      */
     protected function registerTwitterConfiguration($config, ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('auth.twitter')) {
+        if (!$container->hasDefinition('ewz.auth.twitter')) {
             $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
             $loader->load('twitter.xml');
         }
