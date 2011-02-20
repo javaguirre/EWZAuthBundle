@@ -2,7 +2,7 @@
 
 namespace EWZ\AuthBundle\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -96,17 +96,5 @@ class EWZAuthExtension extends Extension
     public function getNamespace()
     {
         return 'http://www.symfony-project.org/schema/dic/ewz/auth';
-    }
-
-    /**
-     * Returns the recommended alias to use in XML.
-     *
-     * This alias is also the mandatory prefix to use when using YAML.
-     *
-     * @return string The alias
-     */
-    public function getAlias()
-    {
-        return 'ewz_auth';
     }
 }
