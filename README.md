@@ -73,7 +73,7 @@ and redirect to it.
             )
         );
 
-        return $this->redirect($loginUrl);
+        return new RedirectResponse($loginUrl);
     }
 
 Once return to the ALLOW_URL, we can then get all the profile information by using:
