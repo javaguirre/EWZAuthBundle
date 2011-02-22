@@ -86,7 +86,7 @@ Once return to the ALLOW_URL, we can then get all the profile information by usi
         $service = $this->get('auth.facebook');
 
         if (!$profile = $service->getProfile()) {
-            return $this->createResponse('We couldn&#039;t connect you to Facebook at this time, please try again.');
+            return new Response('We couldn&#039;t connect you to Facebook at this time, please try again.');
         }
 
         // DO SOMETHING WITH $profile
