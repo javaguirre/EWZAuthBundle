@@ -37,11 +37,11 @@ class TwitterService extends Service
 
         $requestToken = $this->twitter->getRequestToken($next);
 
-        $this->session->set('auth/twitter/request/auth_token', $requestToken['auth_token']);
-        $this->session->set('auth/twitter/request/auth_token_secret', $requestToken['auth_token_secret']);
+        $this->session->set('auth/twitter/request/oauth_token', $requestToken['oauth_token']);
+        $this->session->set('auth/twitter/request/oauth_token_secret', $requestToken['oauth_token_secret']);
 
         if ($this->twitter->http_code === 200) {
-            return $this->twitter->getAuthorizeURL($requestToken['auth_token']);
+            return $this->twitter->getAuthorizeURL($requestToken['oauth_token']);
         }
 
         return $cancel;
@@ -71,43 +71,43 @@ class TwitterService extends Service
     {
         try {
             // validate response
-            if (!$this->request->query->has('auth_token') || !$this->request->query->has('auth_verifier')) {
+            if (!$this->request->query->has('oauth_token') || !$this->request->query->has('oauth_verifier')) {
                 throw new Exception('Bad request parameters.');
             }
 
-            // validate auth_token
-            if ($this->session->get('auth/twitter/request/auth_token') !== $this->request->query->get('auth_token')) {
-                $this->session->remove('auth/twitter/request/auth_token');
-                $this->session->remove('auth/twitter/request/auth_token_secret');
+            // validate oauth_token
+            if ($this->session->get('auth/twitter/request/oauth_token') !== $this->request->query->get('oauth_token')) {
+                $this->session->remove('auth/twitter/request/oauth_token');
+                $this->session->remove('auth/twitter/request/oauth_token_secret');
 
-                throw new Exception('Invalid auth_token.');
+                throw new Exception('Invalid oauth_token.');
             }
 
             // set temporary credentials
             $this->twitter->setTokens(
-                $this->session->get('auth/twitter/request/auth_token'),
-                $this->session->get('auth/twitter/request/auth_token_secret')
+                $this->session->get('auth/twitter/request/oauth_token'),
+                $this->session->get('auth/twitter/request/oauth_token_secret')
             );
 
             // get token credentials
-            $accessToken = $this->twitter->getAccessToken($this->request->query->get('auth_verifier'));
+            $accessToken = $this->twitter->getAccessToken($this->request->query->get('oauth_verifier'));
 
             if ($this->twitter->http_code !== 200) {
                 throw new Exception('Failed trying to get the access token.');
             }
 
             // save the access tokens
-            $this->session->set('auth/twitter/access/auth_token', $accessToken['auth_token']);
-            $this->session->set('auth/twitter/access/auth_token_secret', $accessToken['auth_token_secret']);
+            $this->session->set('auth/twitter/access/oauth_token', $accessToken['oauth_token']);
+            $this->session->set('auth/twitter/access/oauth_token_secret', $accessToken['oauth_token_secret']);
 
             // no longer needed
-            $this->session->remove('auth/twitter/request/auth_token');
-            $this->session->remove('auth/twitter/request/auth_token_secret');
+            $this->session->remove('auth/twitter/request/oauth_token');
+            $this->session->remove('auth/twitter/request/oauth_token_secret');
 
             // set token credentials
             $this->twitter->setTokens(
-                $this->session->get('auth/twitter/access/auth_token'),
-                $this->session->get('auth/twitter/access/auth_token_secret')
+                $this->session->get('auth/twitter/access/oauth_token'),
+                $this->session->get('auth/twitter/access/oauth_token_secret')
             );
 
             // get account credentials
@@ -122,8 +122,8 @@ class TwitterService extends Service
                 'name'   => $twitterInfo->name,
                 'url'    => 'http://www.twitter.com/'.$twitterInfo->screen_name,
                 'extra'  => get_object_vars($twitterInfo),
-                'token'  => $accessToken['auth_token'],
-                'secret' => $accessToken['auth_token_secret'],
+                'token'  => $accessToken['oauth_token'],
+                'secret' => $accessToken['oauth_token_secret'],
             );
         } catch (Exception $e) {
         }
@@ -168,10 +168,10 @@ class TwitterService extends Service
      */
     protected function cleanSession()
     {
-        $this->session->remove('auth/twitter/request/auth_token');
-        $this->session->remove('auth/twitter/request/auth_token_secret');
-        $this->session->remove('auth/twitter/access/auth_token');
-        $this->session->remove('auth/twitter/access/auth_token_secret');
+        $this->session->remove('auth/twitter/request/oauth_token');
+        $this->session->remove('auth/twitter/request/oauth_token_secret');
+        $this->session->remove('auth/twitter/access/oauth_token');
+        $this->session->remove('auth/twitter/access/oauth_token_secret');
     }
 
     /**
