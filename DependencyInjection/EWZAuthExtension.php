@@ -95,6 +95,6 @@ class EWZAuthExtension extends Extension
      */
     public function getNamespace()
     {
-        return 'http://www.symfony-project.org/schema/dic/ewz/auth';
+        return 'http://symfony.com/schema/dic/ewz/auth';
     }
 }
