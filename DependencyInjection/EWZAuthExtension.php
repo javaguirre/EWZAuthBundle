@@ -5,25 +5,22 @@ namespace EWZ\AuthBundle\DependencyInjection;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 
 class EWZAuthExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)
     {
-        foreach ($configs as $config) {
-            $this->doConfigLoad($config, $container);
-        }
-    }
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('facebook.xml');
+        $loader->load('twitter.xml');
 
-    /**
-     * Loads the auth configuration.
-     *
-     * @param array            $config    An array of configuration settings
-     * @param ContainerBuilder $container A ContainerBuilder instance
-     */
-    protected function doConfigLoad(array $config, ContainerBuilder $container)
-    {
+        $processor = new Processor();
+        $configuration = new Configuration();
+
+        $config = $processor->process($configuration->getConfigTree(), $configs);
+
         if (isset($config['facebook'])) {
             $this->registerFacebookConfiguration($config['facebook'], $container);
         }
@@ -42,11 +39,6 @@ class EWZAuthExtension extends Extension
      */
     protected function registerFacebookConfiguration($config, ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('auth.facebook')) {
-            $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-            $loader->load('facebook.xml');
-        }
-
         foreach (array('class', 'file', 'app_id', 'secret', 'cookie') as $attribute) {
             if (isset($config[$attribute])) {
                 $container->setParameter('auth.facebook.'.$attribute, $config[$attribute]);
@@ -62,19 +54,14 @@ class EWZAuthExtension extends Extension
      */
     protected function registerTwitterConfiguration($config, ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('auth.twitter')) {
-            $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-            $loader->load('twitter.xml');
-        }
-
-        if (isset($config['api']['class'])) {
-            $container->setParameter('auth.twitter.api.class', $config['api']['class']);
-        }
-
         foreach (array('key', 'secret') as $attribute) {
             if (isset($config[$attribute])) {
                 $container->setParameter('auth.twitter.'.$attribute, $config[$attribute]);
             }
+        }
+
+        if (isset($config['api']['class'])) {
+            $container->setParameter('auth.twitter.api.class', $config['api']['class']);
         }
     }
 
