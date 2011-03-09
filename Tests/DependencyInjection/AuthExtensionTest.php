@@ -1,8 +1,8 @@
 <?php
 
-namespace EWZ\AuthBundle\Tests\DependencyInjection;
+namespace EWZ\Bundle\AuthBundle\Tests\DependencyInjection;
 
-use EWZ\AuthBundle\DependencyInjection\EWZAuthExtension;
+use EWZ\Bundle\AuthBundle\DependencyInjection\EWZAuthExtension;
 
 class AuthExtensionTest extends \PHPUnit_Framework_TestCase
 {

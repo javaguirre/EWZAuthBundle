@@ -1,8 +1,8 @@
 <?php
 
-namespace EWZ\AuthBundle\Tests\Templating\Helper;
+namespace EWZ\Bundle\AuthBundle\Tests\Templating\Helper;
 
-use EWZ\AuthBundle\Templating\Helper\FacebookHelper
+use EWZ\Bundle\AuthBundle\Templating\Helper\FacebookHelper
 
 class FacebookHelperTest extends \PHPUnit_Framework_TestCase
 {

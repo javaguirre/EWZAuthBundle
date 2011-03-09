@@ -1,6 +1,6 @@
 <?php
 
-namespace EWZ\AuthBundle;
+namespace EWZ\Bundle\AuthBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

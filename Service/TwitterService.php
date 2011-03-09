@@ -1,6 +1,6 @@
 <?php
 
-namespace EWZ\AuthBundle\Service;
+namespace EWZ\Bundle\AuthBundle\Service;
 
 use TwitterOAuth\Api;
 use TwitterOAuth\OAuth\Exception;

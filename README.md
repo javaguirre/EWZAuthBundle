@@ -23,7 +23,7 @@ You can download it from here http://excelwebzone.github.com/AuthBundle
     {
         return array(
             // ...
-            new EWZ\AuthBundle\EWZAuthBundle(),
+            new EWZ\Bundle\AuthBundle\EWZAuthBundle(),
             // ...
         );
     }
