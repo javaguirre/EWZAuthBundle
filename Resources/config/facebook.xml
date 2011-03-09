@@ -5,7 +5,7 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="auth.facebook.service.class">EWZ\AuthBundle\Service\FacebookService</parameter>
+        <parameter key="auth.facebook.service.class">EWZ\Bundle\AuthBundle\Service\FacebookService</parameter>
 
         <parameter key="auth.facebook.class">Facebook</parameter>
         <parameter key="auth.facebook.file">%kernel.root_dir%/../vendor/facebook/src/facebook.php</parameter>
@@ -13,7 +13,7 @@
         <parameter key="auth.facebook.secret">null</parameter>
         <parameter key="auth.facebook.cookie">true</parameter>
 
-        <parameter key="templating.helper.auth.facebook.class">EWZ\AuthBundle\Templating\Helper\FacebookHelper</parameter>
+        <parameter key="templating.helper.auth.facebook.class">EWZ\Bundle\AuthBundle\Templating\Helper\FacebookHelper</parameter>
     </parameters>
 
     <services>

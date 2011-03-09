@@ -7,7 +7,7 @@ use EWZ\Bundle\AuthBundle\DependencyInjection\EWZAuthExtension;
 class AuthExtensionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers EWZ\AuthBundle\DependencyInjection\EWZAuthExtension::load
+     * @covers EWZ\Bundle\AuthBundle\DependencyInjection\EWZAuthExtension::load
      */
     public function testApiLoadLoadsDefaults()
     {
@@ -18,7 +18,7 @@ class AuthExtensionTest extends \PHPUnit_Framework_TestCase
             ->with('auth.facebook')
             ->will($this->returnValue(false));
 
-        $extension = $this->getMockBuilder('Bundle\\AuthBundle\\DependencyInjection\\EWZAuthExtension')
+        $extension = $this->getMockBuilder('EWZ\\Bundle\\AuthBundle\\DependencyInjection\\EWZAuthExtension')
             ->setMethods(array('loadDefaults'))
             ->getMock();
         $extension
@@ -30,7 +30,7 @@ class AuthExtensionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers EWZ\AuthBundle\DependencyInjection\EWZAuthExtension::load
+     * @covers EWZ\Bundle\AuthBundle\DependencyInjection\EWZAuthExtension::load
      */
     public function testConfigLoadDoesNotReloadDefaults()
     {
@@ -41,7 +41,7 @@ class AuthExtensionTest extends \PHPUnit_Framework_TestCase
             ->with('auth.facebook')
             ->will($this->returnValue(true));
 
-        $extension = $this->getMockBuilder('Bundle\\AuthBundle\\DependencyInjection\\EWZAuthExtension')
+        $extension = $this->getMockBuilder('EWZ\\Bundle\\AuthBundle\\DependencyInjection\\EWZAuthExtension')
             ->setMethods(array('loadDefaults'))
             ->getMock();
         $extension
@@ -52,7 +52,7 @@ class AuthExtensionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers EWZ\AuthBundle\DependencyInjection\EWZAuthExtension::load
+     * @covers EWZ\Bundle\AuthBundle\DependencyInjection\EWZAuthExtension::load
      * @dataProvider parameterNames
      */
     public function testConfigLoadSetParameters($name)

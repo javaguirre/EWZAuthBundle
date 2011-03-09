@@ -7,7 +7,7 @@ use EWZ\Bundle\AuthBundle\Templating\Helper\FacebookHelper
 class FacebookHelperTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers EWZ\AuthBundle\Templating\Helper\FacebookHelper::initialize
+     * @covers EWZ\Bundle\AuthBundle\Templating\Helper\FacebookHelper::initialize
      */
     public function testInitialize()
     {
