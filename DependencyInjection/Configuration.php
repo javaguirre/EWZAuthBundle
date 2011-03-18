@@ -2,7 +2,7 @@
 
 namespace EWZ\Bundle\AuthBundle\DependencyInjection;
 
-use Symfony\Component\Config\Definition\Builder\NodeBuilder;
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
 /**
@@ -13,45 +13,60 @@ class Configuration
     /**
      * Generates the configuration tree.
      *
-     * @return \Symfony\Component\Config\Definition\NodeInterface
+     * @return \Symfony\Component\Config\Definition\ArrayNode The config tree
      */
     public function getConfigTree()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('ewz_auth', 'array');
+        $tree = new TreeBuilder();
+        $node = $tree->root('ewz_auth');
 
-        $this->addFacebookSection($rootNode);
-        $this->addTwitterSection($rootNode);
+        $this->addFacebookSection($node);
+        $this->addTwitterSection($node);
 
-        return $treeBuilder->buildTree();
+        return $tree->buildTree();
     }
 
-    private function addFacebookSection(NodeBuilder $rootNode)
+    /**
+     * Configures the "facebook" section
+     */
+    private function addFacebookSection(ArrayNodeDefinition $node)
     {
-        $rootNode
-            ->arrayNode('facebook')
-                ->canBeUnset()
-                ->scalarNode('class')->end()
-                ->scalarNode('file')->end()
-                ->scalarNode('app_id')->end()
-                ->scalarNode('secret')->end()
-                ->scalarNode('cookie')->end()
+        $node
+            ->children()
+                ->arrayNode('facebook')
+                    ->canBeUnset()
+                    ->children()
+                        ->scalarNode('class')->end()
+                        ->scalarNode('file')->end()
+                        ->scalarNode('app_id')->end()
+                        ->scalarNode('secret')->end()
+                        ->scalarNode('cookie')->end()
+                    ->end()
                 ->end()
+            ->end()
         ;
     }
 
-    private function addTwitterSection(NodeBuilder $rootNode)
+    /**
+     * Configures the "twitter" section
+     */
+    private function addTwitterSection(ArrayNodeDefinition $node)
     {
-        $rootNode
-            ->arrayNode('twitter')
-                ->canBeUnset()
-                ->scalarNode('key')->end()
-                ->scalarNode('secret')->end()
-                ->arrayNode('api')
+        $node
+            ->children()
+                ->arrayNode('twitter')
                     ->canBeUnset()
-                    ->scalarNode('class')->end()
+                    ->children()
+                        ->scalarNode('key')->end()
+                        ->scalarNode('secret')->end()
+                        ->arrayNode('api')
+                            ->canBeUnset()
+                            ->scalarNode('class')->end()
+                            ->end()
+                        ->end()
                     ->end()
                 ->end()
+            ->end()
         ;
     }
 }
