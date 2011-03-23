@@ -11,11 +11,6 @@ Installation
     # Twitter OAuth
     git clone git://github.com/ruudk/twitterauth.git vendor/twitterauth
 
-
-**Add AuthBundle to your src/Bundle dir:**
-
-You can download it from here http://excelwebzone.github.com/AuthBundle
-
 **Add AuthBundle to your application kernel:**
 
     // app/AppKernel.php
