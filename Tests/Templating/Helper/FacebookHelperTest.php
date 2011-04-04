@@ -19,7 +19,7 @@ class FacebookHelperTest extends \PHPUnit_Framework_TestCase
         $templating
             ->expects($this->once())
             ->method('render')
-            ->with('EWZAuth::facebook.html.php', array(
+            ->with('EWZAuthBundle::facebook.html.php', array(
                 'appId'   => 123,
                 'cookie'  => false,
                 'culture' => 'en_US',
