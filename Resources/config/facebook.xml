@@ -14,6 +14,7 @@
         <parameter key="auth.facebook.cookie">true</parameter>
 
         <parameter key="templating.helper.auth.facebook.class">EWZ\Bundle\AuthBundle\Templating\Helper\FacebookHelper</parameter>
+        <parameter key="twig.extension.auth.facebook.class">EWZ\Bundle\AuthBundle\Twig\Extension\FacebookExtension</parameter>
     </parameters>
 
     <services>
@@ -38,6 +39,11 @@
             <argument type="service" id="templating" />
             <argument key="addId">%auth.facebook.app_id%</argument>
             <argument key="cookie">%auth.facebook.cookie%</argument>
+        </service>
+
+        <service id="twig.extension.auth.facebook" class="%twig.extension.auth.facebook.class%">
+            <tag name="twig.extension" />
+            <argument type="service" id="templating.helper.auth.facebook" />
         </service>
     </services>
 </container>

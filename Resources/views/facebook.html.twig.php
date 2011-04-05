@@ -1,0 +1,22 @@
+<div id="fb-root"></div>
+
+<script type="text/javascript">
+window.fbAsyncInit = function () {
+    FB.init({{ {
+        'appId'   : appId,
+        'cookie'  : cookie,
+        'xfbml'   : xfbml,
+        'session' : session,
+        'status'  : status,
+        'logging' : logging,
+    )) }|json_encode }});
+    {{ fbAsyncInit }}
+};
+
+(function () {
+    var a = document.createElement("script");
+    a.src = document.location.protocol + "//connect.facebook.net/{{ culture }}/all.js";
+    a.async = true;
+    document.getElementById("fb-root").appendChild(a)
+})();
+</script>
