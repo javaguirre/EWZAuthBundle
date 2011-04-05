@@ -43,7 +43,7 @@
 
         <service id="twig.extension.auth.facebook" class="%twig.extension.auth.facebook.class%">
             <tag name="twig.extension" />
-            <argument type="service" id="templating.helper.auth.facebook" />
+            <argument type="service" id="service_container" />
         </service>
     </services>
 </container>
