@@ -16,7 +16,7 @@ class FacebookExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'initialize' => new \Twig_Function_Method($this, 'initialize'),
+            'auth_facebook_initialize' => new \Twig_Function_Method($this, 'initialize'),
         );
     }
 
