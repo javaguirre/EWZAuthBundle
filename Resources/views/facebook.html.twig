@@ -9,7 +9,7 @@ window.fbAsyncInit = function () {
         'session' : session,
         'status'  : status,
         'logging' : logging,
-    }|json_encode }});
+    }|json_encode|raw }});
     {{ fbAsyncInit is defined ? fbAsyncInit : null }}
 };
 
