@@ -24,8 +24,8 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('ewz_auth');
         
-        $this->addFacebookSection($node);
-        $this->addTwitterSection($node);
+        $this->addFacebookSection($rootNode);
+        $this->addTwitterSection($rootNode);
 
         return $treeBuilder;
     }
