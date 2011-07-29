@@ -4,34 +4,38 @@ namespace EWZ\Bundle\AuthBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
+use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * configuration structure.
+ * This class contains the configuration information for the bundle
+ *
+ * This information is solely responsible for how the different configuration
+ * sections are normalized, and merged.
  */
-class Configuration
+class Configuration implements ConfigurationInterface
 {
     /**
-     * Generates the configuration tree.
+     * Generates the configuration tree builder.
      *
-     * @return \Symfony\Component\Config\Definition\ArrayNode The config tree
+     * @return \Symfony\Component\Config\Definition\Builder\TreeBuilder The tree builder
      */
-    public function getConfigTree()
+    public function getConfigTreeBuilder()
     {
-        $tree = new TreeBuilder();
-        $node = $tree->root('ewz_auth');
-
+        $treeBuilder = new TreeBuilder();
+        $rootNode = $treeBuilder->root('ewz_auth');
+        
         $this->addFacebookSection($node);
         $this->addTwitterSection($node);
 
-        return $tree->buildTree();
+        return $treeBuilder;
     }
 
     /**
      * Configures the "facebook" section
      */
-    private function addFacebookSection(ArrayNodeDefinition $node)
+    private function addFacebookSection(ArrayNodeDefinition $rootNode)
     {
-        $node
+        $rootNode
             ->children()
                 ->arrayNode('facebook')
                     ->canBeUnset()
@@ -50,9 +54,9 @@ class Configuration
     /**
      * Configures the "twitter" section
      */
-    private function addTwitterSection(ArrayNodeDefinition $node)
+    private function addTwitterSection(ArrayNodeDefinition $rootNode)
     {
-        $node
+        $rootNode
             ->children()
                 ->arrayNode('twitter')
                     ->canBeUnset()

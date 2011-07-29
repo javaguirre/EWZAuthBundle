@@ -5,21 +5,27 @@ namespace EWZ\Bundle\AuthBundle\DependencyInjection;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 
+/**
+ * EWZAuthExtension.
+ */
 class EWZAuthExtension extends Extension
 {
+    /**
+     * Loads the auth configuration.
+     *
+     * @param array            $configs
+     * @param ContainerBuilder $container
+     */
     public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('facebook.xml');
         $loader->load('twitter.xml');
 
-        $processor = new Processor();
         $configuration = new Configuration();
-
-        $config = $processor->process($configuration->getConfigTree(), $configs);
+        $config = $this->processConfiguration($configuration, $configs);
 
         if (isset($config['facebook'])) {
             $this->registerFacebookConfiguration($config['facebook'], $container);
@@ -34,8 +40,8 @@ class EWZAuthExtension extends Extension
     /**
      * Loads the facebook configuration.
      *
-     * @param array            $config    A configuration array
-     * @param ContainerBuilder $container A ContainerBuilder instance
+     * @param array            $config
+     * @param ContainerBuilder $container
      */
     protected function registerFacebookConfiguration($config, ContainerBuilder $container)
     {
@@ -49,8 +55,8 @@ class EWZAuthExtension extends Extension
     /**
      * Loads the twitter configuration.
      *
-     * @param array            $config    A configuration array
-     * @param ContainerBuilder $container A ContainerBuilder instance
+     * @param array            $config
+     * @param ContainerBuilder $container
      */
     protected function registerTwitterConfiguration($config, ContainerBuilder $container)
     {
