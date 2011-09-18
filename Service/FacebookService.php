@@ -65,7 +65,7 @@ class FacebookService extends Service
     public function getProfile()
     {
         try {
-            if ($this->facebook->getSession()) {
+            if ($this->facebook->getPersistentData('access_token')) {
                 $accessToken = $this->facebook->getAccessToken();
 
                 $me = $this->facebook->api('/me?access_token='.$accessToken);
