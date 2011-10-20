@@ -50,12 +50,10 @@ class FacebookHelper extends Helper
     }
 
     /**
-     * Returns the canonical name of this helper.
-     *
-     * @return string The canonical name
+     * {@inheritDoc}
      */
     public function getName()
     {
-        return 'auth.facebook';
+        return 'ewz_auth.facebook';
     }
 }

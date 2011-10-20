@@ -7,17 +7,14 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * This class contains the configuration information for the bundle
+ * This is the class that validates and merges configuration from your app/config files
  *
- * This information is solely responsible for how the different configuration
- * sections are normalized, and merged.
+ * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html#cookbook-bundles-extension-config-class}
  */
 class Configuration implements ConfigurationInterface
 {
     /**
-     * Generates the configuration tree builder.
-     *
-     * @return \Symfony\Component\Config\Definition\Builder\TreeBuilder The tree builder
+     * {@inheritDoc}
      */
     public function getConfigTreeBuilder()
     {
@@ -40,11 +37,11 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('facebook')
                     ->canBeUnset()
                     ->children()
-                        ->scalarNode('class')->end()
-                        ->scalarNode('file')->end()
-                        ->scalarNode('app_id')->end()
-                        ->scalarNode('secret')->end()
-                        ->scalarNode('cookie')->end()
+                        ->scalarNode('class')->defaultValue('Facebook')->end()
+                        ->scalarNode('file')->defaultValue('%kernel.root_dir%/../vendor/facebook/src/facebook.php')->end()
+                        ->scalarNode('app_id')->defaultNull()->end()
+                        ->scalarNode('secret')->defaultNull()->end()
+                        ->scalarNode('cookie')->defaultTrue()->end()
                     ->end()
                 ->end()
             ->end()
@@ -61,12 +58,12 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('twitter')
                     ->canBeUnset()
                     ->children()
-                        ->scalarNode('key')->end()
-                        ->scalarNode('secret')->end()
+                        ->scalarNode('key')->defaultNull()->end()
+                        ->scalarNode('secret')->defaultNull()->end()
                         ->arrayNode('api')
                             ->canBeUnset()
                             ->children()
-                                ->scalarNode('class')->end()
+                                ->scalarNode('class')->defaultValue('TwitterOAuth\Api')->end()
                             ->end()
                         ->end()
                     ->end()

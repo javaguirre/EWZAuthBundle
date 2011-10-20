@@ -2,36 +2,34 @@
 
 namespace EWZ\Bundle\AuthBundle\Twig\Extension;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use EWZ\Bundle\AuthBundle\Templating\Helper\AuthHelper;
 
 class FacebookExtension extends \Twig_Extension
 {
-    protected $container;
+    protected $helper;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(AuthHelper $helper)
     {
-        $this->container = $container;
+        $this->helper = $helper;
     }
 
     public function getFunctions()
     {
         return array(
-            'auth_facebook_initialize' => new \Twig_Function_Method($this, 'initialize', array('is_safe' => array('html'))),
+            'ewz_auth_facebook_initialize' => new \Twig_Function_Method($this, 'initialize', array('is_safe' => array('html'))),
         );
     }
 
     public function initialize($parameters = array(), $name = 'EWZAuthBundle::facebook.html.twig')
     {
-        return $this->container->get('templating.helper.auth.facebook')->initialize($parameters, $name);
+        return $this->$helper->initialize($parameters, $name);
     }
 
     /**
-     * Returns the name of the extension.
-     *
-     * @return string The extension name
+     * {@inheritDoc}
      */
     public function getName()
     {
-        return 'auth.facebook';
+        return 'ewz_auth.facebook';
     }
 }

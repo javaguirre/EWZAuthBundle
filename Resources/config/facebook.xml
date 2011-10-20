@@ -5,45 +5,38 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="auth.facebook.service.class">EWZ\Bundle\AuthBundle\Service\FacebookService</parameter>
-
-        <parameter key="auth.facebook.class">Facebook</parameter>
-        <parameter key="auth.facebook.file">%kernel.root_dir%/../vendor/facebook/src/facebook.php</parameter>
-        <parameter key="auth.facebook.app_id">null</parameter>
-        <parameter key="auth.facebook.secret">null</parameter>
-        <parameter key="auth.facebook.cookie">true</parameter>
-
-        <parameter key="templating.helper.auth.facebook.class">EWZ\Bundle\AuthBundle\Templating\Helper\FacebookHelper</parameter>
-        <parameter key="twig.extension.auth.facebook.class">EWZ\Bundle\AuthBundle\Twig\Extension\FacebookExtension</parameter>
+        <parameter key="ewz_auth.facebook_service.class">EWZ\Bundle\AuthBundle\Service\FacebookService</parameter>
+        <parameter key="ewz_auth.facebook_helper.class">EWZ\Bundle\AuthBundle\Templating\Helper\FacebookHelper</parameter>
+        <parameter key="ewz_auth.facebook_extension.class">EWZ\Bundle\AuthBundle\Twig\Extension\FacebookExtension</parameter>
     </parameters>
 
     <services>
-        <service id="facebook" class="%auth.facebook.class%">
-            <file>%auth.facebook.file%</file>
+        <service id="ewz_facebook.api" class="%ewz_auth.facebook.class%">
+            <file>%ewz_auth.facebook.file%</file>
             <argument type="collection">
-                <argument key="appId">%auth.facebook.app_id%</argument>
-                <argument key="secret">%auth.facebook.secret%</argument>
-                <argument key="cookie">%auth.facebook.cookie%</argument>
+                <argument key="appId">%ewz_auth.facebook.app_id%</argument>
+                <argument key="secret">%ewz_auth.facebook.secret%</argument>
+                <argument key="cookie">%ewz_auth.facebook.cookie%</argument>
             </argument>
         </service>
 
-        <service id="auth.facebook" class="%auth.facebook.service.class%">
-            <argument type="service" id="facebook" />
+        <service id="ewz_auth.facebook" class="%ewz_auth.facebook_service.class%">
+            <argument type="service" id="ewz_facebook.api" />
             <call method="setContainer">
                 <argument type="service" id="service_container" />
             </call>
         </service>
 
-        <service id="templating.helper.auth.facebook" class="%templating.helper.auth.facebook.class%">
-            <tag name="templating.helper" alias="auth.facebook" />
+        <service id="ewz_auth.facebook_helper" class="%ewz_auth.facebook_helper.class%">
+            <tag name="templating.helper" alias="ewz_auth.facebook.api" />
             <argument type="service" id="templating" />
-            <argument key="addId">%auth.facebook.app_id%</argument>
-            <argument key="cookie">%auth.facebook.cookie%</argument>
+            <argument key="addId">%ewz_auth.facebook.app_id%</argument>
+            <argument key="cookie">%ewz_auth.facebook.cookie%</argument>
         </service>
 
-        <service id="twig.extension.auth.facebook" class="%twig.extension.auth.facebook.class%">
+        <service id="ewz_auth.facebook_extension" class="%ewz_auth.facebook_extension.class%">
             <tag name="twig.extension" />
-            <argument type="service" id="service_container" />
+        	<argument type="service" id="ewz_auth.facebook_helper" />
         </service>
     </services>
 </container>

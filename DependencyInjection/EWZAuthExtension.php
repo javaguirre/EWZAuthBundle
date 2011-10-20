@@ -2,21 +2,20 @@
 
 namespace EWZ\Bundle\AuthBundle\DependencyInjection;
 
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\DependencyInjection\Loader;
 
 /**
- * EWZAuthExtension.
+ * This is the class that loads and manages your bundle configuration
+ *
+ * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
 class EWZAuthExtension extends Extension
 {
     /**
-     * Loads the auth configuration.
-     *
-     * @param array            $configs
-     * @param ContainerBuilder $container
+     * {@inheritDoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -47,7 +46,7 @@ class EWZAuthExtension extends Extension
     {
         foreach (array('class', 'file', 'app_id', 'secret', 'cookie') as $attribute) {
             if (isset($config[$attribute])) {
-                $container->setParameter('auth.facebook.'.$attribute, $config[$attribute]);
+                $container->setParameter('ewz_auth.facebook.'.$attribute, $config[$attribute]);
             }
         }
     }
@@ -62,32 +61,12 @@ class EWZAuthExtension extends Extension
     {
         foreach (array('key', 'secret') as $attribute) {
             if (isset($config[$attribute])) {
-                $container->setParameter('auth.twitter.'.$attribute, $config[$attribute]);
+                $container->setParameter('ewz_auth.twitter.'.$attribute, $config[$attribute]);
             }
         }
 
         if (isset($config['api']['class'])) {
-            $container->setParameter('auth.twitter.api.class', $config['api']['class']);
+            $container->setParameter('ewz_auth.twitter.api.class', $config['api']['class']);
         }
-    }
-
-    /**
-     * Returns the base path for the XSD files.
-     *
-     * @return string The XSD base path
-     */
-    public function getXsdValidationBasePath()
-    {
-        return __DIR__.'/../Resources/config/schema';
-    }
-
-    /**
-     * Returns the namespace to be used for this extension (XML namespace).
-     *
-     * @return string The XML namespace
-     */
-    public function getNamespace()
-    {
-        return 'http://excelwebzone.com/schema/dic/ewz/auth';
     }
 }

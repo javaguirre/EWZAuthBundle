@@ -23,13 +23,7 @@ class TwitterService extends Service
     }
 
     /**
-     * Gets a Login URL for use with redirects.
-     *
-     * @param string $next       The URL to go to after a successful login
-     * @param string $cancel     The URL to go to after the user cancels
-     * @param array  $parameters Provide custom parameters
-     *
-     * @return string The URL for the login flow
+     * {@inheritDoc}
      */
     public function getLoginUrl($next, $cancel, array $parameters = array())
     {
@@ -48,12 +42,7 @@ class TwitterService extends Service
     }
 
     /**
-     * Gets a Logout URL suitable for use with redirects.
-     *
-     * @param string $next       The URL to go to after a successful logout
-     * @param array  $parameters Provide custom parameters
-     *
-     * @return string The URL for the logout flow
+     * {@inheritDoc}
      */
     public function getLogoutUrl($next, array $parameters = array())
     {
@@ -63,9 +52,7 @@ class TwitterService extends Service
     }
 
     /**
-     * Gets the profile from the session.
-     *
-     * @return array The profile if available
+     * {@inheritDoc}
      */
     public function getProfile()
     {
@@ -132,12 +119,7 @@ class TwitterService extends Service
     }
 
     /**
-     * Gets the profile friends.
-     *
-     * @param string $user_id The user id
-     * @param string $token   An identifier token
-     *
-     * @return array The profile friends if available
+     * {@inheritDoc}
      */
     public function getFriends($userId = null, $token = null)
     {
@@ -175,12 +157,10 @@ class TwitterService extends Service
     }
 
     /**
-     * Returns the canonical name of this service.
-     *
-     * @return string The canonical name
+     * {@inheritDoc}
      */
     public function getName()
     {
-        return 'auth.twitter';
+        return 'ewz_auth.twitter';
     }
 }

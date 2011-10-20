@@ -15,7 +15,7 @@ class AuthExtensionTest extends \PHPUnit_Framework_TestCase
         $container
             ->expects($this->once())
             ->method('hasDefinition')
-            ->with('auth.facebook')
+            ->with('ewz_auth.facebook')
             ->will($this->returnValue(false));
 
         $extension = $this->getMockBuilder('EWZ\\Bundle\\AuthBundle\\DependencyInjection\\EWZAuthExtension')
@@ -38,7 +38,7 @@ class AuthExtensionTest extends \PHPUnit_Framework_TestCase
         $container
             ->expects($this->once())
             ->method('hasDefinition')
-            ->with('auth.facebook')
+            ->with('ewz_auth.facebook')
             ->will($this->returnValue(true));
 
         $extension = $this->getMockBuilder('EWZ\\Bundle\\AuthBundle\\DependencyInjection\\EWZAuthExtension')
@@ -63,12 +63,12 @@ class AuthExtensionTest extends \PHPUnit_Framework_TestCase
         $container
             ->expects($this->once())
             ->method('hasDefinition')
-            ->with('auth.facebook')
+            ->with('ewz_auth.facebook')
             ->will($this->returnValue(true));
         $container
             ->expects($this->once())
             ->method('setParameter')
-            ->with('auth.facebook.'.$name, $value);
+            ->with('ewz_auth.facebook.'.$name, $value);
 
         $extension = new EWZAuthExtension();
         $extension->load(array($name => $value), $container);
