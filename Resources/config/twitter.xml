@@ -9,7 +9,7 @@
     </parameters>
 
     <services>
-        <service id="ewz_twitter.api" class="%ewz_auth.twitter.api.class%">
+        <service id="ewz_twitter.api" class="%ewz_auth.twitter.class%">
             <argument key="consumer_key">%ewz_auth.twitter.key%</argument>
             <argument key="consumer_secret">%ewz_auth.twitter.secret%</argument>
         </service>

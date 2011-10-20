@@ -59,14 +59,10 @@ class EWZAuthExtension extends Extension
      */
     protected function registerTwitterConfiguration($config, ContainerBuilder $container)
     {
-        foreach (array('key', 'secret') as $attribute) {
+        foreach (array('class', 'key', 'secret') as $attribute) {
             if (isset($config[$attribute])) {
                 $container->setParameter('ewz_auth.twitter.'.$attribute, $config[$attribute]);
             }
-        }
-
-        if (isset($config['api']['class'])) {
-            $container->setParameter('ewz_auth.twitter.api.class', $config['api']['class']);
         }
     }
 }
