@@ -2,13 +2,13 @@
 
 namespace EWZ\Bundle\AuthBundle\Twig\Extension;
 
-use EWZ\Bundle\AuthBundle\Templating\Helper\AuthHelper;
+use EWZ\Bundle\AuthBundle\Templating\Helper\FacebookHelper;
 
 class FacebookExtension extends \Twig_Extension
 {
     protected $helper;
 
-    public function __construct(AuthHelper $helper)
+    public function __construct(FacebookHelper $helper)
     {
         $this->helper = $helper;
     }
