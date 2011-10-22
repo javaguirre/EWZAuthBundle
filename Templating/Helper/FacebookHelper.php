@@ -36,8 +36,10 @@ class FacebookHelper extends Helper
      *
      * @return string An HTML string
      */
-    public function initialize($parameters = array(), $name = 'EWZAuthBundle::facebook.html.php')
+    public function initialize($parameters = array(), $name)
     {
+        $name = $name ?: 'EWZAuthBundle::facebook.html.php';
+
         return $this->templating->render($name, $parameters + array(
             'appId'   => $this->appId,
             'cookie'  => $this->cookie,

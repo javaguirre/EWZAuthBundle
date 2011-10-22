@@ -36,7 +36,7 @@
 
         <service id="ewz_auth.facebook_extension" class="%ewz_auth.facebook_extension.class%">
             <tag name="twig.extension" />
-        	<argument type="service" id="ewz_auth.facebook_helper" />
+        	<argument type="service" id="service_container" />
         </service>
     </services>
 </container>
