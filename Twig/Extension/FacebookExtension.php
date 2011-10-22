@@ -20,7 +20,7 @@ class FacebookExtension extends \Twig_Extension
         );
     }
 
-    public function initialize($parameters = array(), $name)
+    public function initialize(array $parameters = array(), $name = null)
     {
         return $this->container->get('ewz_auth.facebook_helper')->initialize($parameters, $name ?: 'EWZAuthBundle::facebook.html.twig');
     }
