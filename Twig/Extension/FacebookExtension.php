@@ -2,7 +2,7 @@
 
 namespace EWZ\Bundle\AuthBundle\Twig\Extension;
 
-se Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class FacebookExtension extends \Twig_Extension
 {
