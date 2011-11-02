@@ -15,7 +15,7 @@ add the following entries to the `deps` in the root of your project file:
 ```
 [EWZTimeBundle]
     git=http://github.com/excelwebzone/EWZAuthBundle.git
-    target=/bundles/EWZ/Bundle/EWZAuthBundle
+    target=/bundles/EWZ/Bundle/AuthBundle
 
 ; Dependencies:
 ;--------------
@@ -48,7 +48,7 @@ Next, add the necessary submodules:
 ``` bash
 $ git submodule add git://github.com/facebook/php-sdk.git vendor/facebook
 $ git submodule add git://github.com/ruudk/twitteroauth.git vendor/twitteroauth
-$ git submodule add git://github.com/excelwebzone/EWZAuthBundle.git vendor/bundles/EWZ/Bundle/EWZAuthBundle
+$ git submodule add git://github.com/excelwebzone/EWZAuthBundle.git vendor/bundles/EWZ/Bundle/AuthBundle
 ```
 
 ### Step2: Configure the autoloader
