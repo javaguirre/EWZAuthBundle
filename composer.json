@@ -1,0 +1,27 @@
+{
+    "name": "excelwebzone/auth-bundle",
+    "description": "This bundle provides connection support for Facebook and Twitter",
+    "keywords": ["time", "date", "ago", "diff"],
+    "homepage": "https://github.com/excelwebzone/EWZAuthBundle",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael H. Arieli",
+            "email": "excelwebzone@gmail.com",
+            "homepage": "http://excelwebzone.com/"
+        }
+    ],
+    "require": {
+        "symfony/framework-bundle": "2.*",
+        "facebook/php-sdk": "dev-master",
+        "ruudk/twitteroauth": "dev-master"
+    },
+    "suggest": {
+        "symfony/twig-bundle": "2.*"
+    },
+    "autoload": {
+        "psr-0": { "EWZ\\Bundle\\AuthBundle": "" }
+    },
+    "target-dir": "EWZ/Bundle/AuthBundle"
+}
