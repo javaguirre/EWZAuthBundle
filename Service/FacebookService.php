@@ -33,8 +33,8 @@ class FacebookService extends Service
     public function getLoginUrl($next, $cancel, array $parameters = array())
     {
         return $this->facebook->getLoginUrl($parameters + array(
-            'next'       => $next,
-            'cancel_url' => $cancel,
+            'redirect_uri' => $next,
+            'cancel_url'   => $cancel,
         ));
     }
 
