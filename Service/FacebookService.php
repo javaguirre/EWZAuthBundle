@@ -55,7 +55,8 @@ class FacebookService extends Service
     {
         try {
             if ($accessToken = $this->facebook->getAccessToken()) {
-                $me = $this->facebook->api('/me?access_token='.$accessToken);
+                $this->facebook->setAccessToken($accessToken);
+                $me = $this->facebook->api('/me');
 
                 return array(
                     'id'     => $me['id'],
@@ -66,6 +67,34 @@ class FacebookService extends Service
                     'secret' => null,
                 );
             }
+        } catch (\FacebookApiException $e) {
+        }
+
+        return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getProfileFromApi()
+    {
+        // validate response
+        if (!$this->request->query->has('access_token')) {
+            throw new Exception('Bad request parameters.');
+        }
+
+        try {
+            $this->facebook->setAccessToken($this->request->query->get('access_token'));
+            $me = $this->facebook->api('/me');
+
+            return array(
+                'id'     => $me['id'],
+                'name'   => $me['name'],
+                'url'    => $me['link'],
+                'extra'  => $me,
+                'token'  => $this->request->query->get('access_token'),
+                'secret' => null,
+            );
         } catch (\FacebookApiException $e) {
         }
 
