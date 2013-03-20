@@ -16,7 +16,7 @@ class FacebookService extends Service
      */
     public function __construct(\Facebook $facebook)
     {
-        $this->facebook = $facebook;
+        $this->facebook     = $facebook;
     }
 
     /**
@@ -124,5 +124,53 @@ class FacebookService extends Service
     public function getName()
     {
         return 'ewz_auth.facebook';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function get($path, $params=array()) {
+        return $this->api($path, 'GET', $params);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function post($path, $params=array()) {
+        return $this->api($path, 'POST', $params);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function put($path, $params=array()) {
+        return $this->api($path, 'PUT', $params);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function delete($path, $params=array()) {
+        return $this->api($path, 'DELETE', $params);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function api($path, $method='GET', $params=array()) {
+
+        try {
+            // $this->facebook->setFileUploadSupport(true);
+            $result = $this->facebook->api($path, $method, $params);
+
+            if (isset($result['data'])) {
+                return $result['data'];
+            }
+            return $result;
+        } catch (\FacebookApiException $e) {
+            echo $e;
+        }
+
+        return false;
     }
 }

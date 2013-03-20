@@ -19,7 +19,7 @@ class TwitterService extends Service
      */
     public function __construct(Api $twitter)
     {
-        $this->twitter = $twitter;
+        $this->twitter      = $twitter;
     }
 
     /**
@@ -200,5 +200,33 @@ class TwitterService extends Service
     public function getName()
     {
         return 'ewz_auth.twitter';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function get($path, $params=array()) {
+        return $this->twitter->get($path, $params);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function post($path, $params=array()) {
+        return $this->twitter->post($path, $params);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function put($path, $params=array()) {
+        return $this->twitter->put($path, $params);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function delete($path, $params=array()) {
+        return $this->twitter->delete($path, $params);
     }
 }

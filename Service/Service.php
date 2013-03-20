@@ -68,5 +68,45 @@ abstract class Service
      *
      * @return string The canonical name
      */
-    abstract public function getName();
+    abstract function getName();
+
+    /**
+     * Make a GET request to the service
+     *
+     * @param  string $path
+     * @param  array  $params
+     *
+     * @return  array The result
+     */
+    abstract public function get($path, $params=array());
+
+    /**
+     * Make a POST request to the service
+     *
+     * @param  string $path
+     * @param  array  $params
+     *
+     * @return  array The result
+     */
+    abstract public function post($path, $params=array());
+
+    /**
+     * Make a PUT request to the service
+     *
+     * @param  string $path
+     * @param  array  $params
+     *
+     * @return  array The result
+     */
+    abstract public function put($path, $params=array());
+
+    /**
+     * Make a DELETE request to the service
+     *
+     * @param  string $path
+     * @param  array  $params
+     *
+     * @return  array The result
+     */
+    abstract public function delete($path, $params=array());
 }
