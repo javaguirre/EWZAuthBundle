@@ -229,4 +229,13 @@ class TwitterService extends Service
     public function delete($path, $params=array()) {
         return $this->twitter->delete($path, $params);
     }
+
+    /**
+     * Set twitter tokens
+     * @param string $oauthToken
+     * @param string $oauthTokenSecret
+     */
+    public function setTokens($oauthToken, $oauthTokenSecret) {
+        $this->twitter->setTokens($oauthToken, $oauthTokenSecret);
+    }
 }

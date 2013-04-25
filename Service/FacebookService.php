@@ -126,6 +126,10 @@ class FacebookService extends Service
         return 'ewz_auth.facebook';
     }
 
+    public function setAccessToken($accessToken) {
+        $this->facebook->setAccessToken($accessToken);
+    }
+
     /**
      * {@inheritDoc}
      */
