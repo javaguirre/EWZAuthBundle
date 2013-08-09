@@ -60,8 +60,8 @@ class FacebookService extends Service
 
                 return array(
                     'id'     => $me['id'],
-                    'name'   => $me['name'],
-                    'url'    => $me['link'],
+                    'name'   => isset($me['name']) ? $me['name'] : '',
+                    'url'    => isset($me['link']) ? $me['link'] : '',
                     'extra'  => $me,
                     'token'  => $accessToken,
                     'secret' => null,
