@@ -54,6 +54,20 @@ abstract class Service
     abstract public function getProfile();
 
     /**
+     * Gets the profile from the request.
+     *
+     * @return array The profile if available
+     */
+    abstract public function getProfileFromApi();
+
+    /**
+     * Gets the profile explicitly form the tokens passed.
+     *
+     * @return array The profile if available
+     */
+    abstract public function getProfileFromToken($token, $secret = null);
+
+    /**
      * Gets the profile friends.
      *
      * @param string $user_id The user id

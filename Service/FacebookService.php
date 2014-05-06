@@ -104,6 +104,34 @@ class FacebookService extends Service
     /**
      * {@inheritDoc}
      */
+    public function getProfileFromToken($token, $secret = null)
+    {
+        // validate response
+        if (!$token) {
+            throw new Exception('Bad request parameters.');
+        }
+
+        try {
+            $this->facebook->setAccessToken($token);
+            $me = $this->facebook->api('/me');
+
+            return array(
+                'id'     => $me['id'],
+                'name'   => $me['name'],
+                'url'    => $me['link'],
+                'extra'  => $me,
+                'token'  => $token,
+                'secret' => null,
+            );
+        } catch (\FacebookApiException $e) {
+        }
+
+        return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getFriends($userId = null, $token = null)
     {
         try {

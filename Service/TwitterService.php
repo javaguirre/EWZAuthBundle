@@ -159,6 +159,41 @@ class TwitterService extends Service
     /**
      * {@inheritDoc}
      */
+    public function getProfileFromToken($token, $secret = null)
+    {
+        try {
+            // validate response
+            if (!$token || !$secret) {
+                throw new Exception('Bad request parameters.');
+            }
+
+            // set token credentials
+            $this->twitter->setTokens($token, $secret);
+
+            // get account credentials
+            $twitterInfo = $this->twitter->get('account/verify_credentials');
+
+            if ($this->twitter->http_code !== 200) {
+                throw new Exception('Failed getting user credientials.');
+            }
+
+            return array(
+                'id'     => $twitterInfo->id,
+                'name'   => $twitterInfo->name,
+                'url'    => 'http://www.twitter.com/' . $twitterInfo->screen_name,
+                'extra'  => get_object_vars($twitterInfo),
+                'token'  => $token,
+                'secret' => $secret
+            );
+        } catch (Exception $e) {
+        }
+
+        return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getFriends($userId = null, $token = null)
     {
         try {
