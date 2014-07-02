@@ -203,6 +203,10 @@ class TwitterService extends Service
             $friends = array();
 
             foreach ($result as $friend) {
+                if(!isset($friend['id'])) {
+                    break;
+                }
+
                 $friends[] = array(
                     'id'   => $friend['id'],
                     'name' => $friend['name'],
