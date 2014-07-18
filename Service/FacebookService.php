@@ -80,7 +80,7 @@ class FacebookService extends Service
     {
         // validate response
         if (!$this->request->query->has('access_token')) {
-            throw new Exception('Bad request parameters.');
+            throw new \Exception('Bad request parameters.');
         }
 
         try {
@@ -108,7 +108,7 @@ class FacebookService extends Service
     {
         // validate response
         if (!$token) {
-            throw new Exception('Bad request parameters.');
+            throw new \Exception('Bad request parameters.');
         }
 
         try {
