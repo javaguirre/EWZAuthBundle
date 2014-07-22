@@ -57,6 +57,8 @@ class FacebookService extends Service
             if ($accessToken = $this->facebook->getAccessToken()) {
                 $this->facebook->setAccessToken($accessToken);
                 $me = $this->facebook->api('/me');
+                $picture= $this->facebook->api('/me/picture?type=large&redirect=false');
+                $me['picture'] = $picture['data'];
 
                 return array(
                     'id'     => $me['id'],
@@ -114,6 +116,8 @@ class FacebookService extends Service
         try {
             $this->facebook->setAccessToken($token);
             $me = $this->facebook->api('/me');
+            $picture= $this->facebook->api('/me/picture?type=large&redirect=false');
+            $me['picture'] = $picture['data'];
 
             return array(
                 'id'     => $me['id'],
