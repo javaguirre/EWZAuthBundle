@@ -37,8 +37,6 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('facebook')
                     ->canBeUnset()
                     ->children()
-                        ->scalarNode('class')->defaultValue('Facebook')->end()
-                        ->scalarNode('file')->defaultValue('%kernel.root_dir%/../vendor/facebook/php-sdk/src/facebook.php')->end()
                         ->scalarNode('app_id')->defaultNull()->end()
                         ->scalarNode('secret')->defaultNull()->end()
                         ->scalarNode('cookie')->defaultTrue()->end()

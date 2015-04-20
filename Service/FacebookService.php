@@ -14,9 +14,9 @@ class FacebookService extends Service
      *
      * @param Facebook $facebook A Facebook instance
      */
-    public function __construct(\Facebook $facebook)
+    public function __construct($facebook)
     {
-        $this->facebook     = $facebook;
+        $this->facebook = $facebook;
     }
 
     /**
@@ -32,10 +32,7 @@ class FacebookService extends Service
      */
     public function getLoginUrl($next, $cancel, array $parameters = array())
     {
-        return $this->facebook->getLoginUrl($parameters + array(
-            'redirect_uri' => $next,
-            'cancel_url'   => $cancel,
-        ));
+        return $this->facebook->getLoginUrl($next);
     }
 
     /**
@@ -43,9 +40,7 @@ class FacebookService extends Service
      */
     public function getLogoutUrl($next, array $parameters = array())
     {
-        return $this->facebook->getLogoutUrl($parameters + array(
-            'next' => $next,
-        ));
+        return $this->facebook->getLogoutUrl($parameters['token'], $next);
     }
 
     /**
