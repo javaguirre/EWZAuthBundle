@@ -14,7 +14,7 @@ class FacebookService extends Service
      *
      * @param Facebook $facebook A Facebook instance
      */
-    public function __construct($facebook)
+    public function __construct(Facebook $facebook)
     {
         $this->facebook = $facebook;
     }
@@ -48,25 +48,22 @@ class FacebookService extends Service
      */
     public function getProfile()
     {
-        try {
-            if ($accessToken = $this->facebook->getAccessToken()->getToken()) {
-                $this->facebook->setAccessToken($accessToken);
-                $me = $this->facebook->api('/me');
-                $picture = $this->facebook->api(
-                    '/me/picture?type=large&redirect=false'
-                );
+        if ($accessToken = $this->facebook->getAccessToken()->getToken()) {
+            $this->facebook->setAccessToken($accessToken);
+            $me = $this->facebook->api('/me');
+            $picture = $this->facebook->api(
+                '/me/picture?type=large&redirect=false'
+            );
 
-                return array(
-                    'id'      => $me['id'],
-                    'name'    => isset($me['name']) ? $me['name'] : '',
-                    'url'     => isset($me['link']) ? $me['link'] : '',
-                    'extra'   => $me,
-                    'token'   => $accessToken,
-                    'secret'  => null,
-                    'picture' => $picture
-                );
-            }
-        } catch (\FacebookApiException $e) {
+            return array(
+                'id'      => $me['id'],
+                'name'    => isset($me['name']) ? $me['name'] : '',
+                'url'     => isset($me['link']) ? $me['link'] : '',
+                'extra'   => $me,
+                'token'   => $accessToken,
+                'secret'  => null,
+                'picture' => $picture
+            );
         }
 
         return false;
@@ -82,20 +79,17 @@ class FacebookService extends Service
             throw new \Exception('Bad request parameters.');
         }
 
-        try {
-            $this->facebook->setAccessToken($this->request->query->get('access_token'));
-            $me = $this->facebook->api('/me');
+        $this->facebook->setAccessToken($this->request->query->get('access_token'));
+        $me = $this->facebook->api('/me');
 
-            return array(
-                'id'     => $me['id'],
-                'name'   => $me['name'],
-                'url'    => $me['link'],
-                'extra'  => $me,
-                'token'  => $this->request->query->get('access_token'),
-                'secret' => null,
-            );
-        } catch (\FacebookApiException $e) {
-        }
+        return array(
+            'id'     => $me['id'],
+            'name'   => $me['name'],
+            'url'    => $me['link'],
+            'extra'  => $me,
+            'token'  => $this->request->query->get('access_token'),
+            'secret' => null,
+        );
 
         return false;
     }
@@ -110,22 +104,19 @@ class FacebookService extends Service
             throw new \Exception('Bad request parameters.');
         }
 
-        try {
-            $this->facebook->setAccessToken($token);
-            $me = $this->facebook->api('/me');
-            $picture= $this->facebook->api('/me/picture?type=large&redirect=false');
+        $this->facebook->setAccessToken($token);
+        $me = $this->facebook->api('/me');
+        $picture= $this->facebook->api('/me/picture?type=large&redirect=false');
 
-            return array(
-                'id'     => $me['id'],
-                'name'   => $me['name'],
-                'url'    => $me['link'],
-                'extra'  => $me,
-                'token'  => $token,
-                'secret' => null,
-                'picture' => $picture
-            );
-        } catch (\FacebookApiException $e) {
-        }
+        return array(
+            'id'     => $me['id'],
+            'name'   => $me['name'],
+            'url'    => $me['link'],
+            'extra'  => $me,
+            'token'  => $token,
+            'secret' => null,
+            'picture' => $picture
+        );
 
         return false;
     }
@@ -135,16 +126,14 @@ class FacebookService extends Service
      */
     public function getFriends($userId = null, $token = null)
     {
-        try {
-            $friends = $this->facebook->api('/me/friends');
+        $friends = false;
+        $response = $this->facebook->api('/me/friends');
 
-            if (isset($friends['data'])) {
-                return $friends['data'];
-            }
-        } catch (\FacebookApiException $e) {
+        if (isset($response['data'])) {
+            $friends = $response['data'];
         }
 
-        return false;
+        return $friends;
     }
 
     /**
@@ -155,55 +144,40 @@ class FacebookService extends Service
         return 'ewz_auth.facebook';
     }
 
-    public function setAccessToken($accessToken) {
+    public function setAccessToken($accessToken)
+    {
         $this->facebook->setAccessToken($accessToken);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function get($path, $params=array()) {
-        return $this->api($path, 'GET', $params);
+    public function get($path, $params=array())
+    {
+        return $this->facebook->api($path, 'GET', $params);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function post($path, $params=array()) {
-        return $this->api($path, 'POST', $params);
+    public function post($path, $params=array())
+    {
+        return $this->facebook->api($path, 'POST', $params);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function put($path, $params=array()) {
-        return $this->api($path, 'PUT', $params);
+    public function put($path, $params=array())
+    {
+        return $this->facebook->api($path, 'PUT', $params);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function delete($path, $params=array()) {
-        return $this->api($path, 'DELETE', $params);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function api($path, $method='GET', $params=array()) {
-
-        try {
-            // $this->facebook->setFileUploadSupport(true);
-            $result = $this->facebook->api($path, $method, $params);
-
-            if (isset($result['data'])) {
-                return $result['data'];
-            }
-            return $result;
-        } catch (\FacebookApiException $e) {
-            echo $e;
-        }
-
-        return false;
+    public function delete($path, $params=array())
+    {
+        return $this->facebook->api($path, 'DELETE', $params);
     }
 }
