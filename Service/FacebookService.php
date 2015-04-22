@@ -32,7 +32,11 @@ class FacebookService extends Service
      */
     public function getLoginUrl($next, $cancel, array $parameters = array())
     {
-        return $this->facebook->getLoginUrl($next);
+        if (!isset($parameters['scope'])) {
+            throw new \Exception('Bad request parameters, scope needed');
+        }
+
+        return $this->facebook->getLoginUrl($next, $parameters['scope']);
     }
 
     /**

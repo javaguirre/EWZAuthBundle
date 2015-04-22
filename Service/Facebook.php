@@ -5,7 +5,6 @@ namespace EWZ\Bundle\AuthBundle\Service;
 use Facebook\FacebookSession;
 use Facebook\FacebookRequest;
 use Facebook\GraphUser;
-use Facebook\FacebookRequestException;
 use Facebook\FacebookRedirectLoginHelper;
 
 
@@ -48,12 +47,12 @@ class Facebook
         return $this->secret;
     }
 
-    public function getLoginUrl($next)
+    public function getLoginUrl($next, $scope)
     {
         $this->sfSession->set(self::FB_NEXT, $next);
         $helper = $this->getRedirectHelper($next);
 
-        return $helper->getLoginUrl();
+        return $helper->getLoginUrl($scope);
     }
 
     public function getLogoutUrl($next)
@@ -93,21 +92,13 @@ class Facebook
 
     public function api($url, $method = 'GET', $payload = null)
     {
-        // TODO Add the payload if needed
-        try {
-            $request = new FacebookRequest(
-                $this->getSession(),
-                $method,
-                $url
-            );
+        $request = new FacebookRequest(
+            $this->getSession(),
+            $method,
+            $url
+        );
 
-            $result = $request->execute()->getGraphObject();
-
-        } catch (FacebookRequestException $e) {
-            // The Graph API returned an error
-        } catch (\Exception $e) {
-            // Some other error occurred
-        }
+        $result = $request->execute()->getGraphObject();
 
         return $result->asArray();
     }
