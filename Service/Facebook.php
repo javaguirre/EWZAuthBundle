@@ -82,9 +82,13 @@ class Facebook
     public function api($url)
     {
         try {
-            $request = new FacebookRequest($this->token, 'GET', $url);
+            $request = new FacebookRequest(
+                new FacebookSession($this->token),
+                'GET',
+                $url
+            );
             $result = $request->execute()
-                ->getGraphObject(GraphUser::className());
+                ->getGraphObject();
         } catch (FacebookRequestException $e) {
             // The Graph API returned an error
         } catch (\Exception $e) {

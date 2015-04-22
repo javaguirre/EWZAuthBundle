@@ -49,19 +49,21 @@ class FacebookService extends Service
     public function getProfile()
     {
         try {
-            if ($accessToken = $this->facebook->getAccessToken()) {
+            if ($accessToken = $this->facebook->getAccessToken()->getToken()) {
                 $this->facebook->setAccessToken($accessToken);
                 $me = $this->facebook->api('/me');
-                $picture= $this->facebook->api('/me/picture?type=large&redirect=false');
-                $me['picture'] = $picture['data'];
+                $picture = $this->facebook->api(
+                    '/me/picture?type=large&redirect=false'
+                );
 
                 return array(
-                    'id'     => $me['id'],
-                    'name'   => isset($me['name']) ? $me['name'] : '',
-                    'url'    => isset($me['link']) ? $me['link'] : '',
-                    'extra'  => $me,
-                    'token'  => $accessToken,
-                    'secret' => null,
+                    'id'      => $me['id'],
+                    'name'    => isset($me['name']) ? $me['name'] : '',
+                    'url'     => isset($me['link']) ? $me['link'] : '',
+                    'extra'   => $me,
+                    'token'   => $accessToken,
+                    'secret'  => null,
+                    'picture' => $picture
                 );
             }
         } catch (\FacebookApiException $e) {
@@ -112,7 +114,6 @@ class FacebookService extends Service
             $this->facebook->setAccessToken($token);
             $me = $this->facebook->api('/me');
             $picture= $this->facebook->api('/me/picture?type=large&redirect=false');
-            $me['picture'] = $picture['data'];
 
             return array(
                 'id'     => $me['id'],
@@ -121,6 +122,7 @@ class FacebookService extends Service
                 'extra'  => $me,
                 'token'  => $token,
                 'secret' => null,
+                'picture' => $picture
             );
         } catch (\FacebookApiException $e) {
         }
@@ -134,7 +136,7 @@ class FacebookService extends Service
     public function getFriends($userId = null, $token = null)
     {
         try {
-            $friends = $this->facebook->api('/me/friends?access_token='.$token);
+            $friends = $this->facebook->api('/me/friends');
 
             if (isset($friends['data'])) {
                 return $friends['data'];
