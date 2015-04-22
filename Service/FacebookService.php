@@ -40,7 +40,7 @@ class FacebookService extends Service
      */
     public function getLogoutUrl($next, array $parameters = array())
     {
-        return $this->facebook->getLogoutUrl($parameters['token'], $next);
+        return $this->facebook->getLogoutUrl($next);
     }
 
     /**
@@ -48,25 +48,7 @@ class FacebookService extends Service
      */
     public function getProfile()
     {
-        if ($accessToken = $this->facebook->getAccessToken()->getToken()) {
-            $this->facebook->setAccessToken($accessToken);
-            $me = $this->facebook->api('/me');
-            $picture = $this->facebook->api(
-                '/me/picture?type=large&redirect=false'
-            );
-
-            return array(
-                'id'      => $me['id'],
-                'name'    => isset($me['name']) ? $me['name'] : '',
-                'url'     => isset($me['link']) ? $me['link'] : '',
-                'extra'   => $me,
-                'token'   => $accessToken,
-                'secret'  => null,
-                'picture' => $picture
-            );
-        }
-
-        return false;
+        return $this->getProfileArray();
     }
 
     /**
@@ -74,24 +56,13 @@ class FacebookService extends Service
      */
     public function getProfileFromApi()
     {
-        // validate response
         if (!$this->request->query->has('access_token')) {
-            throw new \Exception('Bad request parameters.');
+            throw new \Exception('Bad request parameters');
         }
 
         $this->facebook->setAccessToken($this->request->query->get('access_token'));
-        $me = $this->facebook->api('/me');
 
-        return array(
-            'id'     => $me['id'],
-            'name'   => $me['name'],
-            'url'    => $me['link'],
-            'extra'  => $me,
-            'token'  => $this->request->query->get('access_token'),
-            'secret' => null,
-        );
-
-        return false;
+        return $this->getProfileArray();
     }
 
     /**
@@ -101,24 +72,12 @@ class FacebookService extends Service
     {
         // validate response
         if (!$token) {
-            throw new \Exception('Bad request parameters.');
+            throw new \Exception('Bad request parameters');
         }
 
         $this->facebook->setAccessToken($token);
-        $me = $this->facebook->api('/me');
-        $picture= $this->facebook->api('/me/picture?type=large&redirect=false');
 
-        return array(
-            'id'     => $me['id'],
-            'name'   => $me['name'],
-            'url'    => $me['link'],
-            'extra'  => $me,
-            'token'  => $token,
-            'secret' => null,
-            'picture' => $picture
-        );
-
-        return false;
+        return $this->getProfileArray();
     }
 
     /**
@@ -136,17 +95,17 @@ class FacebookService extends Service
         return $friends;
     }
 
+    public function newSession($token)
+    {
+        $this->facebook->getSession($token);
+    }
+
     /**
      * {@inheritDoc}
      */
     public function getName()
     {
         return 'ewz_auth.facebook';
-    }
-
-    public function setAccessToken($accessToken)
-    {
-        $this->facebook->setAccessToken($accessToken);
     }
 
     /**
@@ -179,5 +138,26 @@ class FacebookService extends Service
     public function delete($path, $params=array())
     {
         return $this->facebook->api($path, 'DELETE', $params);
+    }
+
+    /**
+     * Convenient method to process the profile
+     *
+     * @return array
+     */
+    private function getProfileArray()
+    {
+        $me = $this->facebook->api('/me');
+        $picture = $this->facebook->api('/me/picture?type=large&redirect=false');
+
+        return array(
+            'id'      => $me['id'],
+            'name'    => isset($me['name']) ? $me['name'] : '',
+            'url'     => isset($me['link']) ? $me['link'] : '',
+            'extra'   => $me,
+            'token'   => $this->facebook->getAccessToken(),
+            'secret'  => null,
+            'picture' => $picture
+        );
     }
 }
