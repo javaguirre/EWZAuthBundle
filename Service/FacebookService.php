@@ -14,9 +14,9 @@ class FacebookService extends Service
      *
      * @param Facebook $facebook A Facebook instance
      */
-    public function __construct(\Facebook $facebook)
+    public function __construct(Facebook $facebook)
     {
-        $this->facebook     = $facebook;
+        $this->facebook = $facebook;
     }
 
     /**
@@ -32,10 +32,11 @@ class FacebookService extends Service
      */
     public function getLoginUrl($next, $cancel, array $parameters = array())
     {
-        return $this->facebook->getLoginUrl($parameters + array(
-            'redirect_uri' => $next,
-            'cancel_url'   => $cancel,
-        ));
+        if (!isset($parameters['scope'])) {
+            throw new \Exception('Bad request parameters, scope needed');
+        }
+
+        return $this->facebook->getLoginUrl($next, $parameters['scope']);
     }
 
     /**
@@ -43,9 +44,7 @@ class FacebookService extends Service
      */
     public function getLogoutUrl($next, array $parameters = array())
     {
-        return $this->facebook->getLogoutUrl($parameters + array(
-            'next' => $next,
-        ));
+        return $this->facebook->getLogoutUrl($next);
     }
 
     /**
@@ -53,26 +52,7 @@ class FacebookService extends Service
      */
     public function getProfile()
     {
-        try {
-            if ($accessToken = $this->facebook->getAccessToken()) {
-                $this->facebook->setAccessToken($accessToken);
-                $me = $this->facebook->api('/me');
-                $picture= $this->facebook->api('/me/picture?type=large&redirect=false');
-                $me['picture'] = $picture['data'];
-
-                return array(
-                    'id'     => $me['id'],
-                    'name'   => isset($me['name']) ? $me['name'] : '',
-                    'url'    => isset($me['link']) ? $me['link'] : '',
-                    'extra'  => $me,
-                    'token'  => $accessToken,
-                    'secret' => null,
-                );
-            }
-        } catch (\FacebookApiException $e) {
-        }
-
-        return false;
+        return $this->getProfileArray();
     }
 
     /**
@@ -80,27 +60,13 @@ class FacebookService extends Service
      */
     public function getProfileFromApi()
     {
-        // validate response
         if (!$this->request->query->has('access_token')) {
-            throw new \Exception('Bad request parameters.');
+            throw new \Exception('Bad request parameters');
         }
 
-        try {
-            $this->facebook->setAccessToken($this->request->query->get('access_token'));
-            $me = $this->facebook->api('/me');
+        $this->facebook->setAccessToken($this->request->query->get('access_token'));
 
-            return array(
-                'id'     => $me['id'],
-                'name'   => $me['name'],
-                'url'    => $me['link'],
-                'extra'  => $me,
-                'token'  => $this->request->query->get('access_token'),
-                'secret' => null,
-            );
-        } catch (\FacebookApiException $e) {
-        }
-
-        return false;
+        return $this->getProfileArray();
     }
 
     /**
@@ -110,27 +76,12 @@ class FacebookService extends Service
     {
         // validate response
         if (!$token) {
-            throw new \Exception('Bad request parameters.');
+            throw new \Exception('Bad request parameters');
         }
 
-        try {
-            $this->facebook->setAccessToken($token);
-            $me = $this->facebook->api('/me');
-            $picture= $this->facebook->api('/me/picture?type=large&redirect=false');
-            $me['picture'] = $picture['data'];
+        $this->facebook->setAccessToken($token);
 
-            return array(
-                'id'     => $me['id'],
-                'name'   => $me['name'],
-                'url'    => $me['link'],
-                'extra'  => $me,
-                'token'  => $token,
-                'secret' => null,
-            );
-        } catch (\FacebookApiException $e) {
-        }
-
-        return false;
+        return $this->getProfileArray();
     }
 
     /**
@@ -138,16 +89,19 @@ class FacebookService extends Service
      */
     public function getFriends($userId = null, $token = null)
     {
-        try {
-            $friends = $this->facebook->api('/me/friends?access_token='.$token);
+        $friends = false;
+        $response = $this->facebook->api('/me/friends');
 
-            if (isset($friends['data'])) {
-                return $friends['data'];
-            }
-        } catch (\FacebookApiException $e) {
+        if (isset($response['data'])) {
+            $friends = $response['data'];
         }
 
-        return false;
+        return $friends;
+    }
+
+    public function newSession($token)
+    {
+        $this->facebook->getSession($token);
     }
 
     /**
@@ -158,55 +112,56 @@ class FacebookService extends Service
         return 'ewz_auth.facebook';
     }
 
-    public function setAccessToken($accessToken) {
-        $this->facebook->setAccessToken($accessToken);
+    /**
+     * {@inheritDoc}
+     */
+    public function get($path, $params=array())
+    {
+        return $this->facebook->api($path, 'GET', $params);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function get($path, $params=array()) {
-        return $this->api($path, 'GET', $params);
+    public function post($path, $params=array())
+    {
+        return $this->facebook->api($path, 'POST', $params);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function post($path, $params=array()) {
-        return $this->api($path, 'POST', $params);
+    public function put($path, $params=array())
+    {
+        return $this->facebook->api($path, 'PUT', $params);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function put($path, $params=array()) {
-        return $this->api($path, 'PUT', $params);
+    public function delete($path, $params=array())
+    {
+        return $this->facebook->api($path, 'DELETE', $params);
     }
 
     /**
-     * {@inheritDoc}
+     * Convenient method to process the profile
+     *
+     * @return array
      */
-    public function delete($path, $params=array()) {
-        return $this->api($path, 'DELETE', $params);
-    }
+    private function getProfileArray()
+    {
+        $me = $this->facebook->api('/me');
+        $picture = $this->facebook->api('/me/picture?type=large&redirect=false');
 
-    /**
-     * {@inheritDoc}
-     */
-    public function api($path, $method='GET', $params=array()) {
-
-        try {
-            // $this->facebook->setFileUploadSupport(true);
-            $result = $this->facebook->api($path, $method, $params);
-
-            if (isset($result['data'])) {
-                return $result['data'];
-            }
-            return $result;
-        } catch (\FacebookApiException $e) {
-            echo $e;
-        }
-
-        return false;
+        return array(
+            'id'      => $me['id'],
+            'name'    => isset($me['name']) ? $me['name'] : '',
+            'url'     => isset($me['link']) ? $me['link'] : '',
+            'extra'   => $me,
+            'token'   => $this->facebook->getAccessToken(),
+            'secret'  => null,
+            'picture' => $picture
+        );
     }
 }

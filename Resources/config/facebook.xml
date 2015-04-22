@@ -5,6 +5,7 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
+        <parameter key="ewz_auth.facebook.class">EWZ\Bundle\AuthBundle\Service\Facebook</parameter>
         <parameter key="ewz_auth.facebook_service.class">EWZ\Bundle\AuthBundle\Service\FacebookService</parameter>
         <parameter key="ewz_auth.facebook_helper.class">EWZ\Bundle\AuthBundle\Templating\Helper\FacebookHelper</parameter>
         <parameter key="ewz_auth.facebook_extension.class">EWZ\Bundle\AuthBundle\Twig\Extension\FacebookExtension</parameter>
@@ -12,12 +13,9 @@
 
     <services>
         <service id="ewz_facebook.api" class="%ewz_auth.facebook.class%">
-            <file>%ewz_auth.facebook.file%</file>
-            <argument type="collection">
-                <argument key="appId">%ewz_auth.facebook.app_id%</argument>
-                <argument key="secret">%ewz_auth.facebook.secret%</argument>
-                <argument key="cookie">%ewz_auth.facebook.cookie%</argument>
-            </argument>
+            <argument key="appId">%ewz_auth.facebook.app_id%</argument>
+            <argument key="secret">%ewz_auth.facebook.secret%</argument>
+            <argument type="service" id="session" />
         </service>
 
         <service id="ewz_auth.facebook" class="%ewz_auth.facebook_service.class%">

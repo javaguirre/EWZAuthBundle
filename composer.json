@@ -14,7 +14,7 @@
     ],
     "require": {
         "symfony/framework-bundle": "2.*",
-        "facebook/php-sdk": "dev-master",
+        "facebook/php-sdk-v4": "dev-4.0-dev",
         "ruudk/twitter-oauth": "dev-master"
     },
     "suggest": {
