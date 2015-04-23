@@ -87,7 +87,7 @@ class Facebook
 
     public function setAccessToken($token)
     {
-        $this->token = $token;
+        $this->fbSession = $this->getSession($token);
     }
 
     public function api($url, $method = 'GET', $payload = null)
