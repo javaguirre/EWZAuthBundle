@@ -92,11 +92,18 @@ class FacebookService extends Service
         $friends = false;
         $response = $this->facebook->api('/me/friends');
 
-        if (isset($response['data'])) {
-            $friends = $response['data'];
+        if (isset($response['summary'])) {
+            $friends = $response['summary'];
         }
 
         return $friends;
+    }
+
+    public function getFriendsCount()
+    {
+        $friends = $this->getFriends();
+
+        return $friends->total_count;
     }
 
     public function newSession($token)
