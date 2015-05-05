@@ -121,15 +121,20 @@ class TwitterService extends Service
         return $this->getProfileArray($accessToken);
     }
 
+    public function getUser($userId)
+    {
+        return $this->twitter->get(
+            'users/show',
+            array('user_id' => $userId)
+        );
+    }
+
     /**
      * {@inheritDoc}
      */
     public function getFriends($userId = null, $token = null)
     {
-        // get account credentials
-        $result = $this->twitter->get('friends/list.json');
-
-        $friendsCount = 0;
+        $result = $this->twitter->get('friends/list');
         $friends = array();
 
         foreach ($result as $friend) {
@@ -143,11 +148,14 @@ class TwitterService extends Service
             );
         }
 
-        if (count($friends)) {
-            $friendsCount = count($friends);
-        }
+        return $friends;
+    }
 
-        return $friendsCount;
+    public function getFollowersCount($userId)
+    {
+        $user = $this->getUser($userId);
+
+        return $user->followers_count;
     }
 
     /**
