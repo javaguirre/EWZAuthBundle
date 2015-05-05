@@ -73,47 +73,17 @@ class TwitterService extends Service
      */
     public function getProfile()
     {
-        // validate response
-        if (!$this->request->query->has('oauth_token') || !$this->request->query->has('oauth_verifier')) {
-            throw new \Exception('Bad request parameters.');
-        }
+        // FIXME Fix this, profile should only handle profile
+        // not token validation
+        $this->_validateRequestTokens();
 
-        // validate oauth_token
-        if ($this->session->get(self::SESSION_REQUEST_TOKEN) !== $this->request->query->get('oauth_token')) {
-            $this->session->remove(self::SESSION_REQUEST_TOKEN);
-            $this->session->remove(self::SESSION_REQUEST_SECRET);
-
-            throw new \Exception('Invalid oauth_token.');
-        }
-
+        // provisional tokens
         $this->setTokens(
             $this->session->get(self::SESSION_REQUEST_TOKEN),
             $this->session->get(self::SESSION_REQUEST_SECRET)
         );
 
-        // get token credentials
-        $accessToken = $this->twitter->oauth(
-            'oauth/access_token',
-            array('oauth_verifier' => $this->request->query->get('oauth_verifier'))
-        );
-
-        if ($this->twitter->getLastHttpCode() !== 200) {
-            throw new \Exception('Failed trying to get the access token.');
-        }
-
-        // save the access tokens
-        $this->session->set(self::SESSION_ACCESS_TOKEN, $accessToken['oauth_token']);
-        $this->session->set(self::SESSION_ACCESS_SECRET, $accessToken['oauth_token_secret']);
-
-        // no longer needed
-        $this->session->remove(self::SESSION_REQUEST_TOKEN);
-        $this->session->remove(self::SESSION_REQUEST_SECRET);
-
-        // set token credentials
-        $this->setTokens(
-            $this->session->get(self::SESSION_ACCESS_TOKEN),
-            $this->session->get(self::SESSION_ACCESS_SECRET)
-        );
+        $accessToken = $this->_verifyTokens($this->request->query->get('oauth_verifier'));
 
         return $this->getProfileArray($accessToken);
     }
@@ -265,5 +235,62 @@ class TwitterService extends Service
             'token'  => $accessToken['oauth_token'],
             'secret' => $accessToken['oauth_token_secret'],
         );
+    }
+
+    /**
+     * Verify twitter tokens and
+     * set the tokens in the session
+     *
+     * @param string $oauthVerifier twitter oauth_verifier
+     */
+    private function _verifyTokens($oauthVerifier)
+    {
+        $accessToken = $this->twitter->oauth(
+            'oauth/access_token',
+            array('oauth_verifier' => $oauthVerifier)
+        );
+
+        if ($this->twitter->getLastHttpCode() !== 200) {
+            throw new \Exception('Failed trying to get the access token.');
+        }
+
+        // save the access tokens
+        $this->session->set(self::SESSION_ACCESS_TOKEN, $accessToken['oauth_token']);
+        $this->session->set(self::SESSION_ACCESS_SECRET, $accessToken['oauth_token_secret']);
+
+        // no longer needed
+        $this->session->remove(self::SESSION_REQUEST_TOKEN);
+        $this->session->remove(self::SESSION_REQUEST_SECRET);
+
+        // set token credentials
+        $accessToken = $this->setTokens(
+            $this->session->get(self::SESSION_ACCESS_TOKEN),
+            $this->session->get(self::SESSION_ACCESS_SECRET)
+        );
+
+        return $accessToken;
+    }
+
+    /**
+     * Verifies if the request query parameters we need
+     * are set
+     */
+    private function _validateRequestTokens()
+    {
+        $oauthToken = $this->request->query->get('oauth_token');
+        $oauthVerifier = $this->request->query->get('oauth_verifier');
+
+        if (!$oauthToken || !$oauthVerifier) {
+            throw new \Exception(
+                'Bad request parameters in TwitterService.getProfile'
+            );
+        }
+
+        if ($this->session->get(self::SESSION_REQUEST_TOKEN) !== $oauthToken) {
+            $this->session->remove(self::SESSION_REQUEST_TOKEN);
+            $this->session->remove(self::SESSION_REQUEST_SECRET);
+
+            throw new \Exception('Invalid oauth_token in TwitterService.getProfile');
+        }
     }
 }
