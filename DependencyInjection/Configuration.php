@@ -56,7 +56,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('twitter')
                     ->canBeUnset()
                     ->children()
-                        ->scalarNode('class')->defaultValue('TwitterOAuth\Api')->end()
+                        ->scalarNode('class')->defaultValue('Abraham\TwitterOAuth\TwitterOAuth')->end()
                         ->scalarNode('key')->defaultNull()->end()
                         ->scalarNode('secret')->defaultNull()->end()
                     ->end()
