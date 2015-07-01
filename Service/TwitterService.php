@@ -153,9 +153,14 @@ class TwitterService extends Service
 
     public function getFollowersCount($userId)
     {
+        $followersCount = 0;
         $user = $this->getUser($userId);
 
-        return $user->followers_count;
+        if (!isset($user->errors)) {
+            $followersCount = $user->followers_count;
+        }
+
+        return $followersCount;
     }
 
     /**
